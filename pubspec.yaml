@@ -2,6 +2,7 @@ name: change
 description: Changelog manipulation library. Read/modify/save your CHANGELOG.md.
 version: 0.0.1
 homepage: https://github.com/f3ath/change
+author: "Alexey Karapetov <karapetov@gmail.com>"
 
 environment:
   sdk: '>=2.0.0 <3.0.0'
