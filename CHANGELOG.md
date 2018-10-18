@@ -1,3 +1,6 @@
-## 1.0.0
+# Changelog
 
-- Initial version, created by Stagehand
+## 0.0.1 - 2018-10-18
+### Added
+- Parsing from markdown
+- Writing to markdown

@@ -1,2 +1,2 @@
 # change
-Changelog manipulation for Dart
+Changelog manipulation for Dart. Work in progress.
