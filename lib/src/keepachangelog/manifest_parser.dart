@@ -6,16 +6,16 @@ class ManifestParser extends ChangelogParser {
   }
 
   void onText(String text) {
-    changelog.manifest.last += text;
+    _ch.manifest.last += text;
   }
 
   void onEnter(Element el) {
-    if (el.tag == 'a') changelog.manifest.last += '[';
+    if (el.tag == 'a') _ch.manifest.last += '[';
   }
 
   void onExit(Element el) {
     if (el.tag == 'a') {
-      changelog.manifest.last += '](${el.attributes['href']})';
+      _ch.manifest.last += '](${el.attributes['href']})';
     }
   }
 }

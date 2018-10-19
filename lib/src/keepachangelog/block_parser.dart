@@ -6,6 +6,6 @@ class BlockParser extends ChangelogParser {
   }
 
   void onText(String text) {
-    changelog.releases.last.blocks.last.type = text;
+    _ch.releases.last.blocks.last.type = text;
   }
 }

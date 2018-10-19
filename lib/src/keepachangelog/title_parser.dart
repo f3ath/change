@@ -4,6 +4,6 @@ class TitleParser extends ChangelogParser {
   TitleParser(Changelog changelog) : super(changelog);
 
   void onText(String text) {
-    changelog.title = text;
+    _ch.title = text;
   }
 }
