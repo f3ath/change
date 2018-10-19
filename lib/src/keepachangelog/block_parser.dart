@@ -1,11 +1,9 @@
 part of 'package:change/src/keepachangelog/changelog_parser.dart';
 
 class BlockParser extends ChangelogParser {
-  BlockParser(Changelog changelog) : super(changelog) {
-    changelog.releases.last.blocks.add(Block());
-  }
+  BlockParser(Changelog changelog) : super(changelog) {}
 
   void onText(String text) {
-    _ch.releases.last.blocks.last.type = text;
+    _ch.releases.last.blocks.add(Block(text));
   }
 }

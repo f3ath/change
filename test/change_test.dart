@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:change/change.dart';
+import 'package:intl/intl.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -26,12 +27,12 @@ void main() {
           endsWith('from [@m-aciek](https://github.com/m-aciek).'));
 
       expect(cl.releases.last.version, '0.0.1');
-      expect(cl.releases.last.date, '2014-05-31');
+      expect(DateFormat('y-MM-dd').format(cl.releases.last.date), '2014-05-31');
       expect(cl.releases.last.blocks.last.changes.last,
           'Counter-examples: "What makes unicorns cry?"');
 
       expect(cl.releases[1].version, '1.0.0');
-      expect(cl.releases[1].date, '2017-06-20');
+      expect(DateFormat('y-MM-dd').format(cl.releases[1].date), '2017-06-20');
     });
   });
 

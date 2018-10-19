@@ -1,26 +1,33 @@
 part of 'package:change/src/keepachangelog/changelog_parser.dart';
 
 class ReleaseParser extends ChangelogParser {
-  ReleaseParser(Changelog changelog) : super(changelog) {
-    changelog.releases.add(Release());
-  }
+  ReleaseParser(Changelog changelog) : super(changelog);
+
+  DateTime _date;
+  String _diffUrl;
+  String _version;
 
   void onText(String text) {
     final match = RegExp(r'^(.*) - (\d{4}-\d{2}-\d{2})$').firstMatch(text);
     if (match != null) {
-      _ch.releases.last.date = match.group(2);
-      if (match.group(1).isNotEmpty) {
-        _ch.releases.last.version = match.group(1);
-      }
+      _date = DateTime.parse(match.group(2));
+      if (match.group(1).isNotEmpty) _version = match.group(1);
     } else {
       // probably 'Unreleased'
-      _ch.releases.last.version = text;
+      _version = text;
     }
   }
 
   void onEnter(Element el) {
     if (el.tag == 'a') {
-      _ch.releases.last.diffUrl = el.attributes['href'];
+      _diffUrl = el.attributes['href'];
+    }
+  }
+
+  @override
+  void onExit(Element el) {
+    if (_path.length == 1) {
+      _ch.releases.add(Release(_version, _date, diffUrl: _diffUrl));
     }
   }
 }
