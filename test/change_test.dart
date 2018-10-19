@@ -4,18 +4,19 @@ import 'package:change/change.dart';
 import 'package:test/test.dart';
 
 void main() {
-  final file = File('test/example/changelog.md');
+  final example = 'test/keepachangelog.md';
   group('Parsing', () {
     test('Can parse example', () async {
-      final cl = await Changelog.fromFile(file);
+      final cl = await Changelog.fromFile(example);
       expect(cl.title, 'Changelog');
-      expect(cl.manifest.toString(), startsWith('All notable changes'));
+      expect(cl.manifest.first, startsWith('All notable changes'));
       expect(
-          cl.manifest.toString(),
+          cl.manifest.last,
           endsWith(
               'to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).'));
+
       expect(cl.releases.first.version, 'Unreleased');
-      expect(cl.releases.first.link,
+      expect(cl.releases.first.diffUrl,
           'https://github.com/olivierlacan/keep-a-changelog/compare/v1.0.0...HEAD');
       expect(cl.releases.first.blocks.first.type, 'Changed');
       expect(cl.releases.first.blocks.first.changes.first,
@@ -36,28 +37,20 @@ void main() {
 
   group('toMarkdown()', () {
     test('does not change the source file', () async {
-      final buf = StringBuffer();
-      final cl = await Changelog.fromFile(file);
-      cl.writeMarkdown(buf);
-      expect(buf.toString().trim(), file.readAsStringSync());
+      final file = File(example);
+      final cl = await Changelog.fromFile(example);
+      expect(cl.toString().trim(), file.readAsStringSync());
     });
     test('empty', () {
-      final buf = StringBuffer();
-      Changelog().writeMarkdown(buf);
-      expect(buf.toString().trim(), '');
+      expect(Changelog().toString().trim(), '');
     });
     test('just title', () {
-      final buf = StringBuffer();
-      final c = Changelog()
-        ..title = 'My changelog';
-      c.writeMarkdown(buf);
-      expect(buf.toString().trim(), '# My changelog');
+      final c = Changelog()..title = 'My changelog';
+      expect(c.toString().trim(), '# My changelog');
     });
   });
 
   group('Manipulation', () {
-    test('Can add unreleased', () {
-
-    });
+    test('Can add unreleased', () {});
   });
 }

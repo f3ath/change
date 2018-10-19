@@ -55,20 +55,20 @@ class TitleParser extends Parser {
 
 class ManifestParser extends Parser {
   ManifestParser(Changelog changelog) : super(changelog) {
-    changelog.manifest.paragraphs.add('');
+    changelog.manifest.add('');
   }
 
   void onText(String text) {
-    changelog.manifest.paragraphs.last += text;
+    changelog.manifest.last += text;
   }
 
   void onEnter(Element el) {
-    if (el.tag == 'a') changelog.manifest.paragraphs.last += '[';
+    if (el.tag == 'a') changelog.manifest.last += '[';
   }
 
   void onExit(Element el) {
     if (el.tag == 'a') {
-      changelog.manifest.paragraphs.last += '](${el.attributes['href']})';
+      changelog.manifest.last += '](${el.attributes['href']})';
     }
   }
 }
@@ -93,7 +93,7 @@ class ReleaseParser extends Parser {
 
   void onEnter(Element el) {
     if (el.tag == 'a') {
-      changelog.releases.last.link = el.attributes['href'];
+      changelog.releases.last.diffUrl = el.attributes['href'];
     }
   }
 }

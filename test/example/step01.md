@@ -8,3 +8,5 @@ This is an example of tracking changes and making a release.
 
 ## 1.0.0 - 2018-10-15
 - Initial version of the example
+
+[Unreleased]: https://github.com/example/project/compare/v1.0.0...HEAD
