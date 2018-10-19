@@ -7,7 +7,7 @@ void main() {
   final example = 'test/keepachangelog.md';
   group('Parsing', () {
     test('Can parse example', () async {
-      final cl = await Changelog.fromFile(example);
+      final cl = await Changelog.readFile(example);
       expect(cl.title, 'Changelog');
       expect(cl.manifest.first, startsWith('All notable changes'));
       expect(
@@ -38,15 +38,15 @@ void main() {
   group('toMarkdown()', () {
     test('does not change the source file', () async {
       final file = File(example);
-      final cl = await Changelog.fromFile(example);
-      expect(cl.toString().trim(), file.readAsStringSync());
+      final cl = await Changelog.readFile(example);
+      expect(cl.toMarkdown(), file.readAsStringSync());
     });
     test('empty', () {
-      expect(Changelog().toString().trim(), '');
+      expect(Changelog().toMarkdown(), '');
     });
     test('just title', () {
       final c = Changelog()..title = 'My changelog';
-      expect(c.toString().trim(), '# My changelog');
+      expect(c.toMarkdown(), '# My changelog');
     });
   });
 

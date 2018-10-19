@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:change/src/markdown_printer.dart';
-import 'package:change/src/parser.dart';
+import 'package:change/keepachangelog.dart' as keep;
+
+typedef Changelog Parser(List<String> lines);
+typedef StringBuffer Printer(Changelog changelog, {StringBuffer buffer});
 
 /// A changelog
 class Changelog {
@@ -22,13 +24,15 @@ class Changelog {
   bool get isEmpty => releases.every((r) => r.isEmpty);
 
   /// Parses an .md [file] and returns a [Changelog] object.
-  static Future<Changelog> fromFile(String file) async =>
-      parseLines(await File(file).readAsLines());
+  static Future<Changelog> readFile(String file,
+          {Parser parser = keep.parser}) async =>
+      parser(await File(file).readAsLines());
 
-  String toString() => MarkdownPrinter().print(this).toString();
+  String toMarkdown({Printer printer = keep.printer, StringBuffer buffer}) =>
+      printer(this, buffer: buffer).toString().trim();
 
   /// Saves the content to the [file].
-  Future<File> writeFile(String file) =>
+  Future<File> writeFile(String file, {Printer printer}) =>
       File(file).writeAsString(this.toString());
 }
 
