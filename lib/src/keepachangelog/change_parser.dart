@@ -1,6 +1,5 @@
 part of 'package:change/src/keepachangelog/changelog_parser.dart';
 
-
 class ChangeParser extends ChangelogParser {
   ChangeParser(Changelog changelog) : super(changelog);
 

@@ -2,13 +2,9 @@ import 'package:change/change.dart';
 import 'package:markdown/markdown.dart';
 
 part 'package:change/src/keepachangelog/block_parser.dart';
-
 part 'package:change/src/keepachangelog/change_parser.dart';
-
 part 'package:change/src/keepachangelog/manifest_parser.dart';
-
 part 'package:change/src/keepachangelog/release_parser.dart';
-
 part 'package:change/src/keepachangelog/title_parser.dart';
 
 class ChangelogParser implements NodeVisitor {

@@ -1,6 +1,5 @@
 part of 'package:change/src/keepachangelog/changelog_parser.dart';
 
-
 class ReleaseParser extends ChangelogParser {
   ReleaseParser(Changelog changelog) : super(changelog) {
     changelog.releases.add(Release());
