@@ -9,6 +9,7 @@ environment:
 
 dependencies:
   markdown: ^2.0.2
+  marker: ^0.0.4
   intl: ^0.15.7
 
 dev_dependencies:

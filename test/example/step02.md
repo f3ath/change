@@ -11,6 +11,7 @@ This is an example of tracking changes and making a release.
 - Programmatically added deprecation
 
 ## 1.0.0 - 2018-10-15
+### Added
 - Initial version of the example
 
 [Unreleased]: https://github.com/example/project/compare/v1.0.0...HEAD
