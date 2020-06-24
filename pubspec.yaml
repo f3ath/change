@@ -1,18 +1,17 @@
 name: change
-description: A Changelog manipulation library. Read/modify/write your CHANGELOG.md. Inspired by keepachangelog.com.
-version: 0.0.2
+version: 0.0.3
 homepage: https://github.com/f3ath/change
-
-environment:
+description: A Changelog manipulation library. Read/modify/write your CHANGELOG.md. Inspired by keepachangelog.com.
+environment: 
   sdk: '>=2.8.0 <3.0.0'
-
-dependencies:
+dependencies: 
+  args: ^1.6.0
   markdown: ^2.0.2
   marker: ^0.0.4
   intl: ^0.16.1
   maybe_just_nothing: ^0.1.8
-
-dev_dependencies:
+dev_dependencies: 
   test: ^1.9.0
   pedantic: ^1.9.0
-
+executables: 
+  change: change

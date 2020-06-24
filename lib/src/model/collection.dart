@@ -1,5 +1,5 @@
-import 'package:change/src/change_type.dart';
-import 'package:change/src/markdown_line.dart';
+import 'package:change/src/model/change_type.dart';
+import 'package:change/src/model/markdown_line.dart';
 import 'package:markdown/markdown.dart';
 
 class Collection {
@@ -7,8 +7,9 @@ class Collection {
       Map.fromIterable(ChangeType.all, value: (_) => <MarkdownLine>[]);
   String link = '';
 
-  void add(ChangeType kind, MarkdownLine MarkdownLine) {
-    _map[kind].add(MarkdownLine);
+  /// Adds a new change.
+  void add(ChangeType type, MarkdownLine MarkdownLine) {
+    _map[type].add(MarkdownLine);
   }
 
   /// Copies all changes from the [source] collection.

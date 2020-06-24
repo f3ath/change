@@ -1,5 +1,5 @@
-import 'package:change/src/collection.dart';
-import 'package:change/src/link.dart';
+import 'package:change/src/model/collection.dart';
+import 'package:change/src/model/link.dart';
 import 'package:markdown/markdown.dart';
 import 'package:maybe_just_nothing/maybe_just_nothing.dart';
 
@@ -11,7 +11,6 @@ class Release extends Collection {
   static Release parse(String text) => Maybe(regexp.firstMatch(text))
       .map((_) => Release(_.group(1), _.group(2)))
       .orThrow(() => 'Unrecognized release header "$text"');
-
 
   final String version;
   final String date;

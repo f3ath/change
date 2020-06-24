@@ -71,32 +71,9 @@ void main() {
     test('Can make release', () {
       final nodes = Document().parseLines(step2.readAsLinesSync());
       final changelog = Changelog.fromMarkdown(nodes);
-      final newVersion = '1.1.0';
-      final lastVersion = changelog.releases.last.version;
-      final newRelease = Release(newVersion, '2018-10-18');
-      final repo = Github('example', 'project');
-      newRelease.copyChangesFrom(changelog.unreleased);
-      newRelease.link = repo.diffLink(lastVersion, newVersion);
-      changelog.releases.add(newRelease);
-      changelog.unreleased.clearChanges();
-      changelog.unreleased.link = repo.diffLink(newVersion, 'HEAD');
+      changelog.release('1.1.0', '2018-10-18',
+          diff: 'https://github.com/example/project/compare/%from%...%to%');
       expect(changelog.dump(), step3.readAsStringSync());
     });
   });
-}
-
-abstract class Repo {
-  /// Generates the diff link between [before] and [after] versions.
-  String diffLink(String before, String after);
-}
-
-class Github implements Repo {
-  Github(this.user, this.repo);
-
-  final String user;
-  final String repo;
-
-  @override
-  String diffLink(String before, String after) =>
-      'https://github.com/$user/$repo/compare/$before...$after';
 }

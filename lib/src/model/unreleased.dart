@@ -1,5 +1,5 @@
-import 'package:change/src/collection.dart';
-import 'package:change/src/link.dart';
+import 'package:change/src/model/collection.dart';
+import 'package:change/src/model/link.dart';
 import 'package:markdown/markdown.dart';
 
 class Unreleased extends Collection {
@@ -16,5 +16,4 @@ class Unreleased extends Collection {
     }
     return title;
   }
-
 }
