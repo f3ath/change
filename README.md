@@ -64,7 +64,7 @@ change release 0.1.0 -l "https://github.com/example/project/compare/%from%...%to
 CHANGELOG after:
 ```markdown
 ## Unreleased
-## [0.1.0] - 
+## [0.1.0] - 2020-06-07
 ### Added
 - New *cool* feature
 
