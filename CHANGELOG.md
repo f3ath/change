@@ -2,6 +2,10 @@
 This project follows [Semantic Versioning 2.0.0](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+## [0.0.4] - 2020-06-24
+### Added
+- Support for multiple major versions in a single file
+
 ## [0.0.3] - 2020-06-23
 ### Added
 - Console app
@@ -19,6 +23,7 @@ This project follows [Semantic Versioning 2.0.0](https://semver.org/spec/v2.0.0.
 - Parsing from markdown
 - Writing to markdown
 
-[Unreleased]: https://github.com/f3ath/change/compare/0.0.3...HEAD
+[Unreleased]: https://github.com/f3ath/change/compare/0.0.4...HEAD
+[0.0.4]: https://github.com/f3ath/change/compare/0.0.3...0.0.4
 [0.0.3]: https://github.com/f3ath/change/compare/0.0.2...0.0.3
 [0.0.2]: https://github.com/f3ath/change/compare/0.0.1...0.0.2

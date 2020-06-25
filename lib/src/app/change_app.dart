@@ -17,7 +17,7 @@ class ChangeApp {
 
   Future<void> release(String version, String date, String diff) async {
     final changelog = await _read();
-    changelog.release(version, date, diff: diff.isNotEmpty ? diff : null);
+    changelog.release(version, date, link: diff.isNotEmpty ? diff : null);
     await _write(changelog);
   }
 

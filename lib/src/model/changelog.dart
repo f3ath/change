@@ -1,12 +1,15 @@
 import 'package:change/model.dart';
 import 'package:change/src/model/collection.dart';
 import 'package:change/src/model/link_finder.dart';
+import 'package:change/src/model/link_template.dart';
 import 'package:change/src/model/markdown_line.dart';
 import 'package:change/src/model/release.dart';
 import 'package:change/src/model/unreleased.dart';
 import 'package:markdown/markdown.dart';
 import 'package:marker/flavors.dart';
 import 'package:marker/marker.dart';
+import 'package:maybe_just_nothing/maybe_just_nothing.dart';
+import 'package:pub_semver/pub_semver.dart';
 
 class Changelog {
   /// The text just below the title.
@@ -65,24 +68,38 @@ class Changelog {
     return changelog;
   }
 
-  /// "Releases" all unreleased changes with the [targetVersion] and [date], namely
+  /// "Releases" all unreleased changes with the [version] and [date], namely
   /// - adds new release to the top of the list
   /// - copies all unreleased changes to it
   /// - clears the "Unreleased" section
   /// - optionally generates/updates the diff links
-  /// The [diff] link template must use `%from%` and `%to%` as version placeholders,
+  /// The [link] template must use `%from%` and `%to%` as version placeholders,
   /// example: `https://github.com/example/project/compare/%from%...%to%`
-  void release(String targetVersion, String date, {String diff}) {
-    final latestVersion = releases.last.version;
-    final release = Release(targetVersion, date)..copyChangesFrom(unreleased);
+  void release(String version, String date, {String link}) {
+    final release = Release(version, date)..copyChangesFrom(unreleased);
+    final previous = _findPredecessor(version);
     releases.add(release);
     unreleased.clearChanges();
-    if (diff != null) {
-      release.link = _format(diff, latestVersion, targetVersion);
-      unreleased.link = _format(diff, targetVersion, 'HEAD');
+
+    if (link != null) {
+      final template = LinkTemplate(link);
+      unreleased.link = template.format(version, 'HEAD');
+      previous.ifPresent((_) {
+        release.link = template.format(_, version);
+      });
     }
   }
 
-  String _format(String template, String from, String to) =>
-      template.replaceAll('%from%', from).replaceAll('%to%', to);
+  Maybe<String> _findPredecessor(String version) {
+    if (releases.isEmpty) return Nothing();
+    final target = Version.parse(version);
+    final versions = releases.map((release) => Version.parse(release.version));
+    Version candidate;
+    for (final v in versions) {
+      if (v < target && (candidate == null || candidate < v)) {
+        candidate = v;
+      }
+    }
+    return Maybe(candidate).map((_) => _.toString());
+  }
 }

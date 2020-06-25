@@ -72,8 +72,21 @@ void main() {
       final nodes = Document().parseLines(step2.readAsLinesSync());
       final changelog = Changelog.fromMarkdown(nodes);
       changelog.release('1.1.0', '2018-10-18',
-          diff: 'https://github.com/example/project/compare/%from%...%to%');
+          link: 'https://github.com/example/project/compare/%from%...%to%');
       expect(changelog.dump(), step3.readAsStringSync());
+    });
+
+    test('Release supports multiple major versions', () {
+      final changelog = Changelog();
+      changelog.releases.add(Release('1.0.0', '2020-06-01'));
+      changelog.releases.add(Release('2.0.0', '2020-06-02'));
+      changelog.unreleased
+          .add(ChangeType.addition, MarkdownLine([Text('My new feature')]));
+      changelog.release('1.1.0', '2020-06-03',
+          link: 'https://github.com/example/project/compare/%from%...%to%');
+      expect(changelog.releases.last.version, '1.1.0');
+      expect(changelog.releases.last.link,
+          'https://github.com/example/project/compare/1.0.0...1.1.0');
     });
   });
 }
