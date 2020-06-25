@@ -1,4 +1,3 @@
-# change
 Changelog manipulation tool written in Dart. 
 
 ## Features
