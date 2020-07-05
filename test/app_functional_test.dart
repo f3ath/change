@@ -18,6 +18,17 @@ void main() {
 
   tearDown(() async {});
 
+  test('Can add to empty', () async {
+    final changelog = '${temp.path}/CHANGELOG.md';
+
+    expect(
+        await app
+            .run(['added', 'Programmatically added change', '-p', changelog]),
+        0);
+    expect(File(changelog).readAsStringSync(),
+        File('test/example/step0.md').readAsStringSync());
+  });
+
   test('Can add changes', () async {
     final changelog = '${temp.path}/CHANGELOG.md';
     await File('test/example/step1.md').copy(changelog);
