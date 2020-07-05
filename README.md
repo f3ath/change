@@ -10,7 +10,7 @@ Changelog manipulation tool written in Dart.
 
 ## Installation
 ```
-pub global install change
+pub global activate change
 ```
 
 ## Usage
