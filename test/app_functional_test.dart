@@ -7,7 +7,7 @@ import 'package:test/test.dart';
 
 void main() {
   Directory temp;
-  Console console;
+  MockConsole console;
   CommandRunner<int> app;
 
   setUp(() async {
@@ -67,6 +67,33 @@ void main() {
         0);
     expect(File(changelog).readAsStringSync(),
         File('test/example/step3.md').readAsStringSync());
+  });
+
+  test('Can print released versions', () async {
+    final changelog = 'test/example/step3.md';
+
+    expect(await app.run(['print', '-p', changelog]), 1,
+        reason: 'Missing version');
+    expect(console.errors.last, 'Please specify released version to print.');
+    expect(await app.run(['print', '2.0.0', '-p', changelog]), 1,
+        reason: 'Unknown version');
+    expect(console.errors.last, 'Version \'2.0.0\' not found!');
+
+    expect(await app.run(['print', '1.0.0', '-p', changelog]), 0);
+    expect(console.logs.last, '''
+### Added
+- Initial version of the example''');
+    expect(await app.run(['print', '1.1.0', '-p', changelog]), 0);
+    expect(console.logs.last, '''
+### Changed
+- Change #1
+- Change #2
+- Programmatically added change
+
+### Deprecated
+- Programmatically added deprecation
+
+[1.1.0]: https://github.com/example/project/compare/1.0.0...1.1.0''');
   });
 }
 
