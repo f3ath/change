@@ -2,6 +2,9 @@
 This project follows [Semantic Versioning 2.0.0](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- Create CHANGELOG.md when missing
+
 ## [0.0.4] - 2020-06-24
 ### Added
 - Support for multiple major versions in a single file
