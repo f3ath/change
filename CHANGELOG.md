@@ -2,6 +2,7 @@
 This project follows [Semantic Versioning 2.0.0](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+## [0.0.5] - 2020-07-05
 ### Added
 - Create CHANGELOG.md when missing
 
@@ -26,7 +27,8 @@ This project follows [Semantic Versioning 2.0.0](https://semver.org/spec/v2.0.0.
 - Parsing from markdown
 - Writing to markdown
 
-[Unreleased]: https://github.com/f3ath/change/compare/0.0.4...HEAD
+[Unreleased]: https://github.com/f3ath/change/compare/0.0.5...HEAD
+[0.0.5]: https://github.com/f3ath/change/compare/0.0.4...0.0.5
 [0.0.4]: https://github.com/f3ath/change/compare/0.0.3...0.0.4
 [0.0.3]: https://github.com/f3ath/change/compare/0.0.2...0.0.3
 [0.0.2]: https://github.com/f3ath/change/compare/0.0.1...0.0.2
