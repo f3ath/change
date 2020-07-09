@@ -13,26 +13,26 @@ void main() {
       final changelog = Changelog.fromMarkdown(nodes);
       expect(changelog.header, isNotEmpty);
 
-      expect(changelog.unreleased.get(ChangeType.change).length, 1);
+      expect(changelog.unreleased.changes.get(ChangeType.change).length, 1);
       expect(changelog.unreleased.link,
           'https://github.com/olivierlacan/keep-a-changelog/compare/v1.0.0...HEAD');
-      expect(changelog.unreleased.get(ChangeType.change).first.text,
+      expect(changelog.unreleased.changes.get(ChangeType.change).first.text,
           startsWith('Update and improvement'));
-      expect(changelog.unreleased.get(ChangeType.change).length, 1);
-      expect(changelog.unreleased.get(ChangeType.addition).length, 0);
+      expect(changelog.unreleased.changes.get(ChangeType.change).length, 1);
+      expect(changelog.unreleased.changes.get(ChangeType.addition).length, 0);
 
       expect(changelog.releases.length, 12);
       final v_0_0_1 = changelog.releases.firstWhere(
           (release) => release.version == '0.0.1',
           orElse: () => throw 'Oops');
       expect(v_0_0_1.link, isEmpty);
-      expect(v_0_0_1.get(ChangeType.addition).length, 5);
+      expect(v_0_0_1.changes.get(ChangeType.addition).length, 5);
       final v_0_0_2 = changelog.releases.firstWhere(
           (release) => release.version == '0.0.2',
           orElse: () => throw 'Oops');
       expect(v_0_0_2.link,
           'https://github.com/olivierlacan/keep-a-changelog/compare/v0.0.1...v0.0.2');
-      expect(v_0_0_2.get(ChangeType.addition).length, 1);
+      expect(v_0_0_2.changes.get(ChangeType.addition).length, 1);
     });
   });
 
@@ -51,9 +51,9 @@ void main() {
     test('Can add entries', () {
       final nodes = Document().parseLines(step1.readAsLinesSync());
       final changelog = Changelog.fromMarkdown(nodes);
-      changelog.unreleased.add(ChangeType.change,
+      changelog.unreleased.changes.add(ChangeType.change,
           MarkdownLine([Text('Programmatically added change')]));
-      changelog.unreleased.add(ChangeType.deprecation,
+      changelog.unreleased.changes.add(ChangeType.deprecation,
           MarkdownLine([Text('Programmatically added deprecation')]));
       expect(changelog.dump(), step2.readAsStringSync());
     });
@@ -61,9 +61,9 @@ void main() {
     test('Can add entries', () {
       final nodes = Document().parseLines(step1.readAsLinesSync());
       final changelog = Changelog.fromMarkdown(nodes);
-      changelog.unreleased.add(ChangeType.change,
+      changelog.unreleased.changes.add(ChangeType.change,
           MarkdownLine([Text('Programmatically added change')]));
-      changelog.unreleased.add(ChangeType.deprecation,
+      changelog.unreleased.changes.add(ChangeType.deprecation,
           MarkdownLine([Text('Programmatically added deprecation')]));
       expect(changelog.dump(), step2.readAsStringSync());
     });
@@ -80,7 +80,7 @@ void main() {
       final changelog = Changelog();
       changelog.releases.add(Release('1.0.0', '2020-06-01'));
       changelog.releases.add(Release('2.0.0', '2020-06-02'));
-      changelog.unreleased
+      changelog.unreleased.changes
           .add(ChangeType.addition, MarkdownLine([Text('My new feature')]));
       changelog.release('1.1.0', '2020-06-03',
           link: 'https://github.com/example/project/compare/%from%...%to%');

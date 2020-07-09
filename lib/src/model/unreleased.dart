@@ -2,11 +2,13 @@ import 'package:change/src/model/collection.dart';
 import 'package:change/src/model/link.dart';
 import 'package:markdown/markdown.dart';
 
-class Unreleased extends Collection {
-  @override
+class Unreleased {
+  final changes = Collection();
+  String link = '';
+
   List<Element> toMarkdown() => [
         Element('h2', [_header]),
-        ...super.toMarkdown()
+        ...changes.toMarkdown()
       ];
 
   Node get _header {

@@ -2,6 +2,7 @@
 This project follows [Semantic Versioning 2.0.0](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+## [0.0.6] - 2020-07-08
 ### Added
 - New command 'print' to output a released version
 
@@ -30,7 +31,8 @@ This project follows [Semantic Versioning 2.0.0](https://semver.org/spec/v2.0.0.
 - Parsing from markdown
 - Writing to markdown
 
-[Unreleased]: https://github.com/f3ath/change/compare/0.0.5...HEAD
+[Unreleased]: https://github.com/f3ath/change/compare/0.0.6...HEAD
+[0.0.6]: https://github.com/f3ath/change/compare/0.0.5...0.0.6
 [0.0.5]: https://github.com/f3ath/change/compare/0.0.4...0.0.5
 [0.0.4]: https://github.com/f3ath/change/compare/0.0.3...0.0.4
 [0.0.3]: https://github.com/f3ath/change/compare/0.0.2...0.0.3

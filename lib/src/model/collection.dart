@@ -5,7 +5,6 @@ import 'package:markdown/markdown.dart';
 class Collection {
   final Map<ChangeType, List<MarkdownLine>> _map =
       Map.fromIterable(ChangeType.all, value: (_) => <MarkdownLine>[]);
-  String link = '';
 
   /// Adds a new change.
   void add(ChangeType type, MarkdownLine MarkdownLine) {
@@ -13,14 +12,14 @@ class Collection {
   }
 
   /// Copies all changes from the [source] collection.
-  void copyChangesFrom(Collection source) {
+  void copyFrom(Collection source) {
     _map.forEach((type, list) {
       list.addAll(source._map[type]);
     });
   }
 
   /// Clears all changes
-  void clearChanges() {
+  void clear() {
     _map.values.forEach((element) {
       element.clear();
     });

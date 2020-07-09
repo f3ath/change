@@ -40,16 +40,19 @@ class Changelog {
         final text = node.textContent;
         if (node.tag == 'h2') {
           atHeader = false;
-          if (text.trim().toLowerCase() == 'unreleased') {
-            collection = changelog.unreleased;
-          } else {
-            releases.add(Release.parse(text));
-            collection = releases.last;
-          }
           final finder = LinkFinder();
           node.accept(finder);
-          if (finder.links.isNotEmpty) {
-            collection.link = finder.links.first;
+          if (text.trim().toLowerCase() == 'unreleased') {
+            if (finder.links.isNotEmpty) {
+              changelog.unreleased.link = finder.links.first;
+            }
+            collection = changelog.unreleased.changes;
+          } else {
+            releases.add(Release.parse(text));
+            collection = releases.last.changes;
+            if (finder.links.isNotEmpty) {
+              releases.last.link = finder.links.first;
+            }
           }
         } else if (atHeader) {
           changelog.header.add(node);
@@ -76,10 +79,11 @@ class Changelog {
   /// The [link] template must use `%from%` and `%to%` as version placeholders,
   /// example: `https://github.com/example/project/compare/%from%...%to%`
   void release(String version, String date, {String link}) {
-    final release = Release(version, date)..copyChangesFrom(unreleased);
+    final release = Release(version, date)
+      ..changes.copyFrom(unreleased.changes);
     final previous = _findPredecessor(version);
     releases.add(release);
-    unreleased.clearChanges();
+    unreleased.changes.clear();
 
     if (link != null) {
       final template = LinkTemplate(link);

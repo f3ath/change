@@ -3,7 +3,7 @@ import 'package:change/src/model/link.dart';
 import 'package:markdown/markdown.dart';
 import 'package:maybe_just_nothing/maybe_just_nothing.dart';
 
-class Release extends Collection {
+class Release {
   Release(this.version, this.date);
 
   static final regexp = RegExp(r'^(.+)\s+-\s+(\d+-\d+-\d+)$');
@@ -14,9 +14,10 @@ class Release extends Collection {
 
   final String version;
   final String date;
+  final Collection changes = Collection();
+  String link = '';
 
-  @override
-  List<Node> toMarkdown() => [Element('h2', _header), ...super.toMarkdown()];
+  List<Node> toMarkdown() => [Element('h2', _header), ...changes.toMarkdown()];
 
   List<Node> get _header {
     if (link?.isNotEmpty == true) {
