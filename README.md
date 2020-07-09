@@ -72,3 +72,33 @@ CHANGELOG after:
 
 [Unreleased]: https://github.com/example/project/compare/0.1.0...HEAD
 ```
+
+### Printing a released version
+Suitable for use in e-mails or Git commit messages.
+
+#### Example
+By running this command for the example CHANGELOG
+
+```shell
+change print 0.1.0
+```
+
+It outputs:
+```shell
+### Added
+- New *cool* feature
+
+### Changed
+- Renamed foo to [bar](https://example.com/bar)
+```
+
+It will print the diff link as well, when a previous release exists.
+
+#### How to use as a Git commit message
+You can create a signed-off release commit including changes for a specific release like this:
+
+```shell script
+git commit -m "Release version 0.1.0
+
+$(change print 0.1.0)" --signoff
+```

@@ -2,6 +2,9 @@
 This project follows [Semantic Versioning 2.0.0](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- New command 'print' to output a released version
+
 ## [0.0.5] - 2020-07-05
 ### Added
 - Create CHANGELOG.md when missing

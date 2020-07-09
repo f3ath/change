@@ -15,6 +15,11 @@ class ChangeApp {
     await _write(changelog);
   }
 
+  Future<Release> get(String version) async {
+    final changelog = await _read();
+    return changelog.releases.firstWhere((element) => element.version == version);
+  }
+
   Future<void> release(String version, String date, String diff) async {
     final changelog = await _read();
     changelog.release(version, date, link: diff.isNotEmpty ? diff : null);
