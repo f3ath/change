@@ -14,15 +14,10 @@ class Print extends AppCommand {
 
   @override
   Future<int> run() async {
-    if (argResults.arguments.isEmpty) {
+    if (argResults.rest.isEmpty) {
       console.error('Please specify released version to print.');
       return 1;
     }
-    final version = argResults.arguments.first;
-    if (version.startsWith('-')) {
-      console.error('Please specify released version to print.');
-      return 1;
-    }
-    return await app().print(version, console);
+    return await app().print(argResults.rest.first, console);
   }
 }

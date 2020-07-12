@@ -16,11 +16,11 @@ class Add extends AppCommand {
 
   @override
   Future<int> run() async {
-    if (argResults.arguments.isEmpty) {
+    if (argResults.rest.isEmpty) {
       console.error('Too few arguments');
       return 1;
     }
-    await app().add(type, argResults.arguments.first);
+    await app().add(type, argResults.rest.first);
     return 0;
   }
 }

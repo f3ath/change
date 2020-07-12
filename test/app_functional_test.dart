@@ -56,9 +56,9 @@ void main() {
     expect(
         await app.run([
           'release',
-          '1.1.0',
           '-d',
           '2018-10-18',
+          '1.1.0',
           '-l',
           'https://github.com/example/project/compare/%from%...%to%',
           '-p',

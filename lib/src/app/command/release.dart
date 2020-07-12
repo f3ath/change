@@ -15,12 +15,12 @@ class Release extends AppCommand {
 
   @override
   Future<int> run() async {
-    if (argResults.arguments.isEmpty) {
+    if (argResults.rest.isEmpty) {
       console.error('Please specify release version.');
       return 1;
     }
-    await app().release(argResults.arguments.first, globalResults['date'],
-        globalResults['link']);
+    await app().release(
+        argResults.rest.first, globalResults['date'], globalResults['link']);
     return 0;
   }
 }
