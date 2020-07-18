@@ -2,6 +2,10 @@
 This project follows [Semantic Versioning 2.0.0](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+## [0.0.8] - 2020-07-18
+### Added
+- A static `fromLines()` factory method
+
 ## [0.0.7] - 2020-07-12
 ### Changed
 - Updated dependencies
@@ -35,7 +39,8 @@ This project follows [Semantic Versioning 2.0.0](https://semver.org/spec/v2.0.0.
 - Parsing from markdown
 - Writing to markdown
 
-[Unreleased]: https://github.com/f3ath/change/compare/0.0.7...HEAD
+[Unreleased]: https://github.com/f3ath/change/compare/0.0.8...HEAD
+[0.0.8]: https://github.com/f3ath/change/compare/0.0.7...0.0.8
 [0.0.7]: https://github.com/f3ath/change/compare/0.0.6...0.0.7
 [0.0.6]: https://github.com/f3ath/change/compare/0.0.5...0.0.6
 [0.0.5]: https://github.com/f3ath/change/compare/0.0.4...0.0.5

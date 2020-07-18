@@ -49,6 +49,6 @@ class ChangeApp {
   Future<File> _write(Changelog changelog) =>
       file.writeAsString(changelog.dump());
 
-  Future<Changelog> _read() async => Changelog.fromMarkdown(Document()
-      .parseLines(await file.create().then((file) => file.readAsLines())));
+  Future<Changelog> _read() async => Changelog.fromLines(
+      await file.create().then((file) => file.readAsLines()));
 }

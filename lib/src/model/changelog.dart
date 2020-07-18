@@ -28,6 +28,10 @@ class Changelog {
         ...releases.reversed.map((_) => _.toMarkdown()).expand((_) => _),
       ], flavor: changelog);
 
+  /// Creates an instance from lines of text.
+  static Changelog fromLines(List<String> text) =>
+      fromMarkdown(Document().parseLines(text));
+
   /// Creates an instance from markdown nodes.
   static Changelog fromMarkdown(List<Node> nodes) {
     final changelog = Changelog();

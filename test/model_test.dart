@@ -6,11 +6,11 @@ import 'package:test/test.dart';
 
 void main() {
   final example = File('test/keepachangelog.md');
-  final nodes = Document().parseLines(example.readAsLinesSync());
+  final text = example.readAsLinesSync();
 
   group('Parsing', () {
     test('Can read the example', () async {
-      final changelog = Changelog.fromMarkdown(nodes);
+      final changelog = Changelog.fromLines(text);
       expect(changelog.header, isNotEmpty);
 
       expect(changelog.unreleased.changes.get(ChangeType.change).length, 1);
@@ -38,7 +38,7 @@ void main() {
 
   group('Rendering', () {
     test('Can read the example and render it unchanged', () {
-      final changelog = Changelog.fromMarkdown(nodes);
+      final changelog = Changelog.fromLines(text);
       expect(changelog.dump(), example.readAsStringSync());
     });
   });
@@ -49,8 +49,7 @@ void main() {
     final step3 = File('test/example/step3.md');
 
     test('Can add entries', () {
-      final nodes = Document().parseLines(step1.readAsLinesSync());
-      final changelog = Changelog.fromMarkdown(nodes);
+      final changelog = Changelog.fromLines(step1.readAsLinesSync());
       changelog.unreleased.changes.add(ChangeType.change,
           MarkdownLine([Text('Programmatically added change')]));
       changelog.unreleased.changes.add(ChangeType.deprecation,
@@ -59,8 +58,7 @@ void main() {
     });
 
     test('Can add entries', () {
-      final nodes = Document().parseLines(step1.readAsLinesSync());
-      final changelog = Changelog.fromMarkdown(nodes);
+      final changelog = Changelog.fromLines(step1.readAsLinesSync());
       changelog.unreleased.changes.add(ChangeType.change,
           MarkdownLine([Text('Programmatically added change')]));
       changelog.unreleased.changes.add(ChangeType.deprecation,
@@ -69,8 +67,7 @@ void main() {
     });
 
     test('Can make release', () {
-      final nodes = Document().parseLines(step2.readAsLinesSync());
-      final changelog = Changelog.fromMarkdown(nodes);
+      final changelog = Changelog.fromLines(step2.readAsLinesSync());
       changelog.release('1.1.0', '2018-10-18',
           link: 'https://github.com/example/project/compare/%from%...%to%');
       expect(changelog.dump(), step3.readAsStringSync());
