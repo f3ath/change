@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:change/model.dart';
-import 'package:markdown/markdown.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -50,19 +49,19 @@ void main() {
 
     test('Can add entries', () {
       final changelog = Changelog.fromLines(step1.readAsLinesSync());
-      changelog.unreleased.changes.add(ChangeType.change,
-          MarkdownLine([Text('Programmatically added change')]));
-      changelog.unreleased.changes.add(ChangeType.deprecation,
-          MarkdownLine([Text('Programmatically added deprecation')]));
+      changelog.unreleased.changes
+          .addText(ChangeType.change, 'Programmatically added change');
+      changelog.unreleased.changes.addText(
+          ChangeType.deprecation, 'Programmatically added deprecation');
       expect(changelog.dump(), step2.readAsStringSync());
     });
 
     test('Can add entries', () {
       final changelog = Changelog.fromLines(step1.readAsLinesSync());
-      changelog.unreleased.changes.add(ChangeType.change,
-          MarkdownLine([Text('Programmatically added change')]));
-      changelog.unreleased.changes.add(ChangeType.deprecation,
-          MarkdownLine([Text('Programmatically added deprecation')]));
+      changelog.unreleased.changes
+          .addText(ChangeType.change, 'Programmatically added change');
+      changelog.unreleased.changes.addText(
+          ChangeType.deprecation, 'Programmatically added deprecation');
       expect(changelog.dump(), step2.readAsStringSync());
     });
 
@@ -78,7 +77,7 @@ void main() {
       changelog.releases.add(Release('1.0.0', '2020-06-01'));
       changelog.releases.add(Release('2.0.0', '2020-06-02'));
       changelog.unreleased.changes
-          .add(ChangeType.addition, MarkdownLine([Text('My new feature')]));
+          .addText(ChangeType.addition, 'My new feature');
       changelog.release('1.1.0', '2020-06-03',
           link: 'https://github.com/example/project/compare/%from%...%to%');
       expect(changelog.releases.last.version, '1.1.0');

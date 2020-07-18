@@ -6,6 +6,10 @@ class Collection {
   final Map<ChangeType, List<MarkdownLine>> _map =
       Map.fromIterable(ChangeType.all, value: (_) => <MarkdownLine>[]);
 
+  /// Adds a new change from [text]. The text will be parsed as markdown.
+  void addText(ChangeType type, String text) =>
+      add(type, MarkdownLine.parse(text));
+
   /// Adds a new change.
   void add(ChangeType type, MarkdownLine MarkdownLine) {
     _map[type].add(MarkdownLine);

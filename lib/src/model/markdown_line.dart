@@ -6,6 +6,9 @@ class MarkdownLine {
     this.nodes.addAll(nodes);
   }
 
+  static MarkdownLine parse(String text) =>
+      MarkdownLine(Document().parseInline(text));
+
   final nodes = <Node>[];
 
   String get text => nodes.map((e) => e.textContent).join();

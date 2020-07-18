@@ -2,8 +2,7 @@ import 'dart:io';
 
 import 'package:change/model.dart';
 import 'package:change/src/app/console.dart';
-import 'package:markdown/markdown.dart';
-import 'package:marker/flavors.dart' as flafors;
+import 'package:marker/flavors.dart' as flavors;
 import 'package:marker/marker.dart';
 
 class ChangeApp {
@@ -14,8 +13,7 @@ class ChangeApp {
   Future<void> add(ChangeType type, String text) async {
     final changelog = await _read();
 
-    changelog.unreleased.changes
-        .add(type, MarkdownLine(Document().parseInline(text)));
+    changelog.unreleased.changes.addText(type, text);
     await _write(changelog);
   }
 
@@ -30,7 +28,7 @@ class ChangeApp {
     try {
       final release = changelog.releases
           .firstWhere((element) => element.version == version);
-      final output = render(release.toMarkdown(), flavor: flafors.changelog);
+      final output = render(release.toMarkdown(), flavor: flavors.changelog);
       // Strip first line, which is already part of the command or commit message header
       console.log(output.substring(output.indexOf('\n') + 1));
       return 0;

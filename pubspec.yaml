@@ -1,5 +1,5 @@
 name: change
-version: 0.0.8
+version: 0.0.9
 homepage: https://github.com/f3ath/change
 description: A Changelog manipulation library. Read/modify/write your CHANGELOG.md. Inspired by keepachangelog.com.
 environment: 
