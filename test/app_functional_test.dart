@@ -69,6 +69,24 @@ void main() {
         File('test/example/step3.md').readAsStringSync());
   });
 
+  test('Can release with empty link', () async {
+    final changelog = '${temp.path}/CHANGELOG.md';
+    await File('test/example/step2.md').copy(changelog);
+
+    expect(
+        await app.run([
+          'release',
+          '-d',
+          '2018-10-18',
+          '1.1.0',
+          '-p',
+          changelog
+        ]),
+        0);
+    expect(File(changelog).readAsStringSync(),
+        File('test/example/step3-no-link.md').readAsStringSync());
+  });
+
   test('Can print released versions', () async {
     final changelog = 'test/example/step3.md';
 

@@ -95,6 +95,8 @@ class Changelog {
       previous.ifPresent((_) {
         release.link = template.format(_, version);
       });
+    }else {
+      unreleased.link = '';
     }
   }
 

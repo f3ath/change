@@ -20,7 +20,8 @@ CommandRunner<int> buildApp(Console console) => CommandRunner<int>(
       abbr: 'p', help: 'Full path to CHANGELOG.md', defaultsTo: 'CHANGELOG.md')
   ..argParser.addOption('link',
       abbr: 'l',
-      help: 'Diff link template. Use %from% and %to% as version placeholders.')
+      help: 'Diff link template. Use %from% and %to% as version placeholders.',
+      defaultsTo: '')
   ..argParser.addOption('date',
       abbr: 'd',
       help: 'Release date. Today, if not specified',
