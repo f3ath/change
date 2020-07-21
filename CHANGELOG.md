@@ -2,6 +2,10 @@
 This project follows [Semantic Versioning 2.0.0](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+## [0.0.11] - 2020-07-20
+### Changed
+- Upgraded dependencies
+
 ## [0.0.10] - 2020-07-18
 ### Fixed
 - Missing diff link was breaking the app
@@ -48,7 +52,8 @@ This project follows [Semantic Versioning 2.0.0](https://semver.org/spec/v2.0.0.
 - Parsing from markdown
 - Writing to markdown
 
-[Unreleased]: https://github.com/f3ath/change/compare/0.0.10...HEAD
+[Unreleased]: https://github.com/f3ath/change/compare/0.0.11...HEAD
+[0.0.11]: https://github.com/f3ath/change/compare/0.0.10...0.0.11
 [0.0.10]: https://github.com/f3ath/change/compare/0.0.9...0.0.10
 [0.0.9]: https://github.com/f3ath/change/compare/0.0.8...0.0.9
 [0.0.8]: https://github.com/f3ath/change/compare/0.0.7...0.0.8
