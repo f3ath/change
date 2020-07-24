@@ -4,16 +4,16 @@ import 'package:markdown/markdown.dart';
 import 'package:maybe_just_nothing/maybe_just_nothing.dart';
 
 class Release {
-  Release(this.version, this.date);
+  Release(this.version, {String date}) : date = Maybe(date);
 
   static final regexp = RegExp(r'^(.+)\s+-\s+(\d+-\d+-\d+)$');
 
   static Release parse(String text) => Maybe(regexp.firstMatch(text))
-      .map((_) => Release(_.group(1), _.group(2)))
-      .orThrow(() => 'Unrecognized release header "$text"');
+      .map((_) => Release(_.group(1), date: _.group(2)))
+      .orGet(() => Release(text));
 
   final String version;
-  final String date;
+  final Maybe<String> date;
   final Collection changes = Collection();
   String link = '';
 
@@ -23,9 +23,9 @@ class Release {
     if (link?.isNotEmpty == true) {
       return [
         Link([Text(version)], link),
-        Text(' - $date')
+        ...date.map((_) => [Text(' - $_')]).or([])
       ];
     }
-    return [Text('$version - $date')];
+    return [Text(version + date.map((_) => ' - $_').or(''))];
   }
 }

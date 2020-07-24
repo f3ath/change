@@ -18,7 +18,7 @@ void main() {
 
   tearDown(() async {});
 
-  test('Can add to empty', () async {
+  test('Can add to an empty changelog', () async {
     final changelog = '${temp.path}/CHANGELOG.md';
 
     expect(

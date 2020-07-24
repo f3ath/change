@@ -40,6 +40,8 @@ void main() {
           File('test/example/incomplete.md').readAsLinesSync());
       expect(changelog.unreleased.changes.get(ChangeType.change).single.text,
           'Change without type');
+      expect(changelog.dump(),
+          File('test/example/incomplete-saved.md').readAsStringSync().trim());
     });
   });
 
@@ -90,8 +92,8 @@ void main() {
 
     test('Release supports multiple major versions', () {
       final changelog = Changelog();
-      changelog.releases.add(Release('1.0.0', '2020-06-01'));
-      changelog.releases.add(Release('2.0.0', '2020-06-02'));
+      changelog.releases.add(Release('1.0.0', date: '2020-06-01'));
+      changelog.releases.add(Release('2.0.0', date: '2020-06-02'));
       changelog.unreleased.changes
           .addText(ChangeType.addition, 'My new feature');
       changelog.release('1.1.0', '2020-06-03', link: template);

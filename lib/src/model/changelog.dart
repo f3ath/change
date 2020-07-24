@@ -83,7 +83,7 @@ class Changelog {
   /// The [link] template must use `%from%` and `%to%` as version placeholders,
   /// example: `https://github.com/example/project/compare/%from%...%to%`
   void release(String version, String date, {String link}) {
-    final release = Release(version, date)
+    final release = Release(version, date: date)
       ..changes.copyFrom(unreleased.changes);
     final previous = _findPredecessor(version);
     releases.add(release);
