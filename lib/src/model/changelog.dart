@@ -37,7 +37,7 @@ class Changelog {
     final changelog = Changelog();
     var atHeader = true;
     Collection collection;
-    ChangeType type;
+    var type = ChangeType.change;
     final releases = <Release>[];
     for (final node in nodes) {
       if (node is Element) {

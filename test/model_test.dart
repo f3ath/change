@@ -6,6 +6,7 @@ import 'package:test/test.dart';
 void main() {
   final example = File('test/keepachangelog.md');
   final text = example.readAsLinesSync();
+  final template = 'https://github.com/example/project/compare/%from%...%to%';
 
   group('Parsing', () {
     test('Can read the example', () async {
@@ -32,6 +33,13 @@ void main() {
       expect(v_0_0_2.link,
           'https://github.com/olivierlacan/keep-a-changelog/compare/v0.0.1...v0.0.2');
       expect(v_0_0_2.changes.get(ChangeType.addition).length, 1);
+    });
+
+    test('Can read incomplete changelog', () {
+      final changelog = Changelog.fromLines(
+          File('test/example/incomplete.md').readAsLinesSync());
+      expect(changelog.unreleased.changes.get(ChangeType.change).single.text,
+          'Change without type');
     });
   });
 
@@ -72,14 +80,21 @@ void main() {
       expect(changelog.dump(), step3.readAsStringSync());
     });
 
+    test('Can make initial release', () {
+      final changelog = Changelog.fromLines(
+          File('test/example/only-unreleased.md').readAsLinesSync());
+      changelog.release('1.0.0', '2018-10-18', link: template);
+      expect(changelog.dump(),
+          File('test/example/initial-release.md').readAsStringSync().trim());
+    });
+
     test('Release supports multiple major versions', () {
       final changelog = Changelog();
       changelog.releases.add(Release('1.0.0', '2020-06-01'));
       changelog.releases.add(Release('2.0.0', '2020-06-02'));
       changelog.unreleased.changes
           .addText(ChangeType.addition, 'My new feature');
-      changelog.release('1.1.0', '2020-06-03',
-          link: 'https://github.com/example/project/compare/%from%...%to%');
+      changelog.release('1.1.0', '2020-06-03', link: template);
       expect(changelog.releases.last.version, '1.1.0');
       expect(changelog.releases.last.link,
           'https://github.com/example/project/compare/1.0.0...1.1.0');
