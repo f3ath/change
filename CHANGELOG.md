@@ -2,6 +2,13 @@
 This project follows [Semantic Versioning 2.0.0](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+## [0.1.0] - 2020-07-26
+### Changed
+- API has been reworked substantially
+
+### Removed
+- CLI part. Use [Cider](https://pub.dev/packages/cider)
+
 ## [0.0.13] - 2020-07-24
 ### Added
 - Support for changelogs with missing dates
@@ -60,7 +67,8 @@ This project follows [Semantic Versioning 2.0.0](https://semver.org/spec/v2.0.0.
 - Parsing from markdown
 - Writing to markdown
 
-[Unreleased]: https://github.com/f3ath/change/compare/0.0.13...HEAD
+[Unreleased]: https://github.com/f3ath/change/compare/0.1.0...HEAD
+[0.1.0]: https://github.com/f3ath/change/compare/0.0.13...0.1.0
 [0.0.13]: https://github.com/f3ath/change/compare/0.0.12...0.0.13
 [0.0.12]: https://github.com/f3ath/change/compare/0.0.11...0.0.12
 [0.0.11]: https://github.com/f3ath/change/compare/0.0.10...0.0.11
