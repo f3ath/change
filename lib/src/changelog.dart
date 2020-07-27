@@ -1,4 +1,4 @@
-import 'package:change/changelog.dart';
+import 'package:change/change.dart';
 import 'package:change/src/change_set.dart';
 import 'package:change/src/inline_markdown.dart';
 import 'package:change/src/link_finder.dart';

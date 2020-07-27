@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:change/changelog.dart';
+import 'package:change/change.dart';
 
 /// This example shows how to parse a changelog.
 /// Run it from the project root folder: `dart example/main.dart`

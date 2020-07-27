@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:change/changelog.dart';
+import 'package:change/change.dart';
 import 'package:markdown/markdown.dart';
 import 'package:maybe_just_nothing/maybe_just_nothing.dart';
 import 'package:test/test.dart';

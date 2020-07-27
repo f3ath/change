@@ -1,6 +1,6 @@
 import 'dart:collection';
 
-import 'package:change/changelog.dart';
+import 'package:change/change.dart';
 import 'package:change/src/inline_markdown.dart';
 import 'package:change/src/section_body.dart';
 import 'package:change/src/section_title.dart';
