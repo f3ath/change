@@ -15,10 +15,12 @@ jobs:
       image:  google/dart:latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Install dependencies
-      run: pub get
-    - name: Analyzer
-      run: dartanalyzer --fatal-infos --fatal-warnings lib test example
-    - name: Tests
-      run: pub run test
+      - uses: actions/checkout@v2
+      - name: Install dependencies
+        run: pub get
+      - name: Formatter
+        run: dartfmt --dry-run --set-exit-if-changed example lib test
+      - name: Analyzer
+        run: dart analyze --fatal-infos --fatal-warnings
+      - name: Tests
+        run: dart test
