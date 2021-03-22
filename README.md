@@ -2,7 +2,7 @@
 Changelog manipulation in Dart. For the command-line tool, see [Cider](https://pub.dev/packages/cider).
 
 ## Features
-- Supports basic Markdown such as bold, italic, links, etc.
+- Supports basic Markdown syntax, such as bold, italic, links, etc.
 - Generates diff links.
 - Generates a new release from `Unreleased`.
 

@@ -1,7 +1,6 @@
 # Example changelog
 This is an example of tracking changes and making a release.
 
-## Unreleased
 ## 1.1.0 - 2018-10-18
 ### Changed
 - Change #1

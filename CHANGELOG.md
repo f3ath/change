@@ -2,8 +2,10 @@
 This project follows [Semantic Versioning 2.0.0](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+## [0.2.0] - 2021-03-22
 ### Changed
-- Migrate to null safety
+- Migrated to null safety
+- The "Unreleased" section is hidden when empty
 
 ## [0.1.1] - 2020-10-18
 ### Changed
@@ -74,7 +76,8 @@ This project follows [Semantic Versioning 2.0.0](https://semver.org/spec/v2.0.0.
 - Parsing from markdown
 - Writing to markdown
 
-[Unreleased]: https://github.com/f3ath/change/compare/0.1.1...HEAD
+[Unreleased]: https://github.com/f3ath/change/compare/0.2.0...HEAD
+[0.2.0]: https://github.com/f3ath/change/compare/0.1.1...0.2.0
 [0.1.1]: https://github.com/f3ath/change/compare/0.1.0...0.1.1
 [0.1.0]: https://github.com/f3ath/change/compare/0.0.13...0.1.0
 [0.0.13]: https://github.com/f3ath/change/compare/0.0.12...0.0.13

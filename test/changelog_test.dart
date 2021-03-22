@@ -119,10 +119,7 @@ void main() {
       changelog.setHeader([
         Element('h1', [Text('My changelog')])
       ]);
-      expect(
-          changelog.dump(),
-          '# My changelog\n'
-          '## Unreleased');
+      expect(changelog.dump(), '# My changelog');
     });
   });
 }
