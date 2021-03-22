@@ -2,6 +2,9 @@
 This project follows [Semantic Versioning 2.0.0](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Changed
+- Migrate to null safety
+
 ## [0.1.1] - 2020-10-18
 ### Changed
 - Bump dependencies versions

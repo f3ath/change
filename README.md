@@ -9,4 +9,3 @@ Changelog manipulation in Dart. For the command-line tool, see [Cider](https://p
 ## Limitations
 - Works with changelogs following [keepachangelog](https://keepachangelog.com/en/1.0.0/) format only.
 - Complex Markdown (e.g. inline HTML) will probably not work.
-
