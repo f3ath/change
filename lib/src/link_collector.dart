@@ -1,7 +1,6 @@
 import 'dart:collection';
 
 import 'package:markdown/markdown.dart';
-import 'package:maybe_just_nothing/maybe_just_nothing.dart';
 
 /// Collects links in a markdown document
 class LinkCollector with IterableMixin<String> implements NodeVisitor {
@@ -10,7 +9,8 @@ class LinkCollector with IterableMixin<String> implements NodeVisitor {
   @override
   void visitElementAfter(Element element) {
     if (element.tag == 'a') {
-      Maybe(element.attributes['href']).ifPresent(_links.add);
+      final href = element.attributes['href'];
+      if (href != null) _links.add(href);
     }
   }
 

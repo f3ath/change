@@ -1,48 +1,34 @@
-import 'dart:collection';
-
-import 'package:change/change.dart';
-import 'package:change/src/inline_markdown.dart';
-import 'package:change/src/section_body.dart';
-import 'package:change/src/section_title.dart';
+import 'package:change/src/change.dart';
 import 'package:markdown/markdown.dart';
-import 'package:maybe_just_nothing/maybe_just_nothing.dart';
 
-/// A set of changes of the same type.
-class Section with IterableMixin<InlineMarkdown> {
-  Section(this.type, [Iterable<InlineMarkdown> entries]) {
-    Maybe(entries).ifPresent(addAll);
+abstract class Section {
+  static Map<String, List<Change>> groups(Section section) => {
+        'Added': section.added,
+        'Changed': section.changed,
+        'Deprecated': section.deprecated,
+        'Fixed': section.fixed,
+        'Removed': section.removed,
+        'Security': section.security
+      };
+
+  final added = <Change>[];
+  final changed = <Change>[];
+  final deprecated = <Change>[];
+  final fixed = <Change>[];
+  final removed = <Change>[];
+  final security = <Change>[];
+  
+  void setFrom(Section other) {
+    final my = groups(this);
+    groups(other).entries.forEach((_) {
+      my[_.key]!.clear();
+      my[_.key]!.addAll(_.value);
+    });
   }
 
-  /// The type of changes
-  final ChangeType type;
-
-  final _entries = <InlineMarkdown>[];
-
-  /// Removes all entries.
-  void clear() {
-    _entries.clear();
-  }
-
-  /// Adds all [entries] to the group
-  void addAll(Iterable<InlineMarkdown> entries) {
-    _entries.addAll(entries);
-  }
-
-  /// Adds a plain text entry.
-  void add(String text) {
-    _entries.add(InlineMarkdown.parse(text));
-  }
-
-  /// Adds a markdown entry.
-  void addMarkdown(InlineMarkdown markdown) {
-    _entries.add(markdown);
-  }
-
-  @override
-  int get length => _entries.length;
-
-  @override
-  Iterator<InlineMarkdown> get iterator => _entries.iterator;
-
-  List<Element> toMarkdown() => [SectionTitle(type.name), SectionBody(this)];
+  Iterable<Node> toMarkdown() =>
+      groups(this).entries.where((_) => _.value.isNotEmpty).expand((_) => [
+            Element('h3', [Text(_.key)]),
+            Element('ul', _.value.expand((_) => _.toMarkdown()).toList())
+          ]);
 }

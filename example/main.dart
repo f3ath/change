@@ -6,9 +6,8 @@ import 'package:change/change.dart';
 /// Run it from the project root folder: `dart example/main.dart`
 void main() async {
   final file = File('CHANGELOG.md');
-  final changelog = Changelog.fromLines(await file.readAsLines());
-  final releases = changelog.releases;
-  final latest = releases.last;
-  print('Changelog contains ${releases.length} releases');
+  final changelog = Changelog.fromMarkdown(file.readAsLinesSync());
+  final latest = changelog.latest()!;
+  print('Changelog contains ${changelog.releases.length} releases');
   print('The latest is ${latest.version} released on ${latest.date}');
 }

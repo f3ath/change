@@ -1,31 +1,45 @@
 import 'package:change/src/anchor.dart';
-import 'package:change/src/change_set.dart';
-import 'package:change/src/change_set_title.dart';
+import 'package:change/src/section.dart';
+import 'package:intl/intl.dart';
 import 'package:markdown/markdown.dart';
-import 'package:maybe_just_nothing/maybe_just_nothing.dart';
+import 'package:pub_semver/pub_semver.dart';
 
-class Release extends ChangeSet {
-  Release(this.version, {String date}) : date = Maybe(date);
+/// A release section
+class Release extends Section implements Comparable<Release> {
+  Release(String version, String date)
+      : version = Version.parse(version),
+        date = DateTime.parse(date);
 
-  static final _regexp = RegExp(r'^(.+)\s+-\s+(\d+-\d+-\d+)$');
+  static final dateFormat = DateFormat('yyyy-MM-dd');
 
-  static Release parse(String text) => Maybe(_regexp.firstMatch(text))
-      .map((_) => Release(_.group(1), date: _.group(2)))
-      .orGet(() => Release(text));
+  /// Release version
+  Version version;
 
-  /// Release version.
-  final String version;
+  /// Release date
+  DateTime date;
 
-  /// Release date.
-  final Maybe<String> date;
+
+  /// Diff link
+  String? diff;
 
   @override
-  List<Node> toMarkdown() => [ChangeSetTitle(_header), ...super.toMarkdown()];
+  Iterable<Node> toMarkdown() {
+    final header = <Node>[];
+    final diff = this.diff;
+    final dateSuffix = ' - ${dateFormat.format(date)}';
+    if (diff != null) {
+      header.add(Anchor(diff, [Text(version.toString())]));
+      header.add(Text(dateSuffix));
+    } else {
+      header.add(Text(version.toString() + dateSuffix));
+    }
+    return <Node>[Element('h2', header)].followedBy(super.toMarkdown());
+  }
 
-  List<Node> get _header => link
-      .map((href) => [
-            Anchor(href, [Text(version)]),
-            ...date.map((date) => [Text(' - $date')]).or(const [])
-          ])
-      .orGet(() => [Text(version + date.map((date) => ' - $date').or(''))]);
+  @override
+  int compareTo(Release other) {
+    final byDate = date.compareTo(other.date);
+    if (byDate != 0) return byDate;
+    return version.compareTo(other.version);
+  }
 }
