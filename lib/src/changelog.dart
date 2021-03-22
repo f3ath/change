@@ -20,7 +20,7 @@ class Changelog {
   static Changelog fromMarkdown(List<Node> nodes) {
     final changelog = Changelog();
     var atHeader = true;
-    ChangeSet collection;
+    late ChangeSet collection;
     var type = ChangeType.change;
     final releases = <Release>[];
     for (final node in nodes) {
@@ -47,11 +47,11 @@ class Changelog {
         } else if (node.tag == 'h3') {
           type = ChangeType.fromString(text);
         } else if (node.tag == 'ul') {
-          node.children.forEach((child) {
+          node.children!.forEach((child) {
             if (child is Element) {
               collection
                   .section(type)
-                  .addMarkdown(InlineMarkdown(child.children));
+                  .addMarkdown(InlineMarkdown(child.children!));
             }
           });
         }
@@ -86,7 +86,7 @@ class Changelog {
   /// - optionally generates/updates the diff links
   /// The [link] template must use `%from%` and `%to%` as version placeholders,
   /// example: `https://github.com/example/project/compare/%from%...%to%`
-  void release(String version, String date, {String link}) {
+  void release(String version, String date, {String? link}) {
     final release = Release(version, date: date)..copyFrom(unreleased);
     final previous = precedingVersion(version);
     releases.add(release);
@@ -118,7 +118,7 @@ class Changelog {
     if (releases.isEmpty) return Nothing();
     final target = Version.parse(version);
     final versions = releases.map((release) => Version.parse(release.version));
-    Version candidate;
+    Version? candidate;
     for (final v in versions) {
       if (v < target && (candidate == null || candidate < v)) {
         candidate = v;

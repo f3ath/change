@@ -9,7 +9,7 @@ import 'package:maybe_just_nothing/maybe_just_nothing.dart';
 
 /// A set of changes of the same type.
 class Section with IterableMixin<InlineMarkdown> {
-  Section(this.type, [Iterable<InlineMarkdown> entries]) {
+  Section(this.type, [Iterable<InlineMarkdown>? entries]) {
     Maybe(entries).ifPresent(addAll);
   }
 
