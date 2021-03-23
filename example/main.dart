@@ -4,10 +4,12 @@ import 'package:change/change.dart';
 
 /// This example shows how to parse a changelog.
 /// Run it from the project root folder: `dart example/main.dart`
-void main() async {
+void main() {
   final file = File('CHANGELOG.md');
-  final changelog = Changelog.fromMarkdown(file.readAsLinesSync());
-  final latest = changelog.latest()!;
-  print('Changelog contains ${changelog.releases.length} releases');
-  print('The latest is ${latest.version} released on ${latest.date}');
+  final log = Changelog.parse(file.readAsStringSync());
+  final latest = log.history().last;
+  print('Changelog contains ${log.history().length} releases.');
+  print('The latest version is ${latest.version}');
+  print('released on ${latest.date}');
+  print('and containing ${latest.changes().length} change(s).');
 }

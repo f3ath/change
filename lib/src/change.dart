@@ -2,14 +2,18 @@ import 'package:markdown/markdown.dart';
 
 /// A single change
 class Change {
-  Change(this.description);
+  Change(this.type, Iterable<Node> description) {
+    if (type.trim().isEmpty) throw ArgumentError('Empty type');
+    this.description.addAll(description);
+  }
 
-  /// Change description as markdown nodes
-  final List<Node> description;
+  /// Change description
+  final description = <Node>[];
 
-  /// A plain text representation of the change
+  /// Change type
+  final String type;
+
+  /// Change description in plain text
   @override
-  String toString() => description.map((_) => _.textContent).join();
-
-  Iterable<Node> toMarkdown() => [Element('li', description)];
+  String toString() => description.map((e) => e.textContent).join();
 }

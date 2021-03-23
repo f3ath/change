@@ -2,6 +2,21 @@
 This project follows [Semantic Versioning 2.0.0](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Changed
+- **This is another complete rewrite of the library, not compatible with previous versions**!
+- Release date is now required for each version.
+- Change types are not limited by the ones listed by semver.
+### Removed
+- Dependency on `maybe_just_nothing`.
+- Dependency on `dart:io`.
+- Markdown-related parts of the API.
+- The `Changelog.release()` method. This logic will be added directly to [Cider](https://pub.dev/packages/cider).
+
+## [0.2.0] - 2021-03-22
+### Changed
+- Migrated to null safety
+- The "Unreleased" section is hidden when empty
+
 ## [0.1.1] - 2020-10-18
 ### Changed
 - Bump dependencies versions
@@ -71,7 +86,8 @@ This project follows [Semantic Versioning 2.0.0](https://semver.org/spec/v2.0.0.
 - Parsing from markdown
 - Writing to markdown
 
-[Unreleased]: https://github.com/f3ath/change/compare/0.1.1...HEAD
+[Unreleased]: https://github.com/f3ath/change/compare/0.2.0...HEAD
+[0.2.0]: https://github.com/f3ath/change/compare/0.1.1...0.2.0
 [0.1.1]: https://github.com/f3ath/change/compare/0.1.0...0.1.1
 [0.1.0]: https://github.com/f3ath/change/compare/0.0.13...0.1.0
 [0.0.13]: https://github.com/f3ath/change/compare/0.0.12...0.0.13

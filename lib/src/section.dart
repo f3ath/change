@@ -1,34 +1,36 @@
 import 'package:change/src/change.dart';
-import 'package:markdown/markdown.dart';
 
-abstract class Section {
-  static Map<String, List<Change>> groups(Section section) => {
-        'Added': section.added,
-        'Changed': section.changed,
-        'Deprecated': section.deprecated,
-        'Fixed': section.fixed,
-        'Removed': section.removed,
-        'Security': section.security
-      };
+/// A release or the unreleased section
+class Section {
+  final _changes = <Change>[];
 
-  final added = <Change>[];
-  final changed = <Change>[];
-  final deprecated = <Change>[];
-  final fixed = <Change>[];
-  final removed = <Change>[];
-  final security = <Change>[];
-  
-  void setFrom(Section other) {
-    final my = groups(this);
-    groups(other).entries.forEach((_) {
-      my[_.key]!.clear();
-      my[_.key]!.addAll(_.value);
-    });
+  /// Section link. Usually, the diff
+  String link = '';
+
+  /// Changes in the change set, optionally filtered by [type]
+  Iterable<Change> changes([String type = '']) {
+    if (type.isEmpty) return _changes;
+    return _changes.where((_) => _.type == type);
   }
 
-  Iterable<Node> toMarkdown() =>
-      groups(this).entries.where((_) => _.value.isNotEmpty).expand((_) => [
-            Element('h3', [Text(_.key)]),
-            Element('ul', _.value.expand((_) => _.toMarkdown()).toList())
-          ]);
+  /// Adds a change to the change set
+  void add(Change change) {
+    _changes.add(change);
+  }
+
+  /// Adds changes to the change set
+  void addAll(Iterable<Change> changes) {
+    _changes.addAll(changes);
+  }
+
+  /// True if the section contains not changes
+  bool get isEmpty => _changes.isEmpty;
+
+  /// True if the section contains changes
+  bool get isNotEmpty => _changes.isNotEmpty;
+
+  /// Removes all changes
+  void clear() {
+    _changes.clear();
+  }
 }
