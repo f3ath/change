@@ -1,34 +1,20 @@
-import 'package:change/src/anchor.dart';
-import 'package:change/src/change_set.dart';
-import 'package:change/src/change_set_title.dart';
-import 'package:markdown/markdown.dart';
-import 'package:maybe_just_nothing/maybe_just_nothing.dart';
+import 'package:change/src/section.dart';
+import 'package:pub_semver/pub_semver.dart';
 
-class Release extends ChangeSet {
-  Release(this.version, {String? date}) : date = Maybe(date);
+class Release extends Section implements Comparable<Release> {
+  Release(this.version, this.date);
 
-  static final _regexp = RegExp(r'^(.+)\s+-\s+(\d+-\d+-\d+)$');
+  /// Release version
+  final Version version;
 
-  static Release parse(String text) => Maybe(_regexp.firstMatch(text))
-      .map((_) => Release(_.group(1)!, date: _.group(2)))
-      .orGet(() => Release(text));
+  /// Release date
+  final DateTime date;
 
-  /// Release version.
-  final String version;
-
-  /// Release date.
-  final Maybe<String> date;
-
+  /// Compares releases by date (oldest fist) and version (lower first)
   @override
-  List<Element> toMarkdown() => [
-        ChangeSetTitle(_header),
-        ...super.toMarkdown(),
-      ];
-
-  List<Node> get _header => link
-      .map((href) => [
-            Anchor(href, [Text(version)]),
-            ...date.map((date) => [Text(' - $date')]).or(const [])
-          ])
-      .orGet(() => [Text(version + date.map((date) => ' - $date').or(''))]);
+  int compareTo(Release other) {
+    final byDate = date.compareTo(other.date);
+    if (byDate != 0) return byDate;
+    return version.compareTo(other.version);
+  }
 }

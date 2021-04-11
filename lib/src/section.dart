@@ -1,48 +1,37 @@
-import 'dart:collection';
+import 'package:change/src/change.dart';
 
-import 'package:change/change.dart';
-import 'package:change/src/inline_markdown.dart';
-import 'package:change/src/section_body.dart';
-import 'package:change/src/section_title.dart';
-import 'package:markdown/markdown.dart';
-import 'package:maybe_just_nothing/maybe_just_nothing.dart';
+/// A release or the unreleased section
+class Section {
+  final _changes = <Change>[];
 
-/// A set of changes of the same type.
-class Section with IterableMixin<InlineMarkdown> {
-  Section(this.type, [Iterable<InlineMarkdown>? entries]) {
-    Maybe(entries).ifPresent(addAll);
+  /// Section link. Usually, the diff
+  String link = '';
+
+  /// Changes in the change set, optionally filtered by [type]
+  Iterable<Change> changes({String? type}) {
+    if (type == null) return _changes;
+    return _changes.where((_) => _.type == type);
   }
 
-  /// The type of changes
-  final ChangeType type;
+  /// Adds a change to the change set
+  void add(Change change) {
+    _changes.add(change);
+  }
 
-  final _entries = <InlineMarkdown>[];
+  /// Adds changes to the change set
+  void addAll(Iterable<Change> changes) {
+    _changes.addAll(changes);
+  }
 
-  /// Removes all entries.
+  /// True if the section contains not changes
+  bool get isEmpty => _changes.isEmpty;
+
+  /// True if the section contains changes
+  bool get isNotEmpty => _changes.isNotEmpty;
+
+  /// Removes all changes and the link
   void clear() {
-    _entries.clear();
+    _changes.clear();
+    link = '';
   }
-
-  /// Adds all [entries] to the group
-  void addAll(Iterable<InlineMarkdown> entries) {
-    _entries.addAll(entries);
-  }
-
-  /// Adds a plain text entry.
-  void add(String text) {
-    _entries.add(InlineMarkdown.parse(text));
-  }
-
-  /// Adds a markdown entry.
-  void addMarkdown(InlineMarkdown markdown) {
-    _entries.add(markdown);
-  }
-
-  @override
-  int get length => _entries.length;
-
-  @override
-  Iterator<InlineMarkdown> get iterator => _entries.iterator;
-
-  List<Element> toMarkdown() => [SectionTitle(type.name), SectionBody(this)];
 }

@@ -1,3 +1,0 @@
-## Unreleased
-### Added
-- Initial version

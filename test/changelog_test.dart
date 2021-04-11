@@ -2,124 +2,145 @@ import 'dart:io';
 
 import 'package:change/change.dart';
 import 'package:markdown/markdown.dart';
-import 'package:maybe_just_nothing/maybe_just_nothing.dart';
+import 'package:pub_semver/pub_semver.dart';
 import 'package:test/test.dart';
 
 void main() {
-  final example = File('test/keepachangelog.md');
-  final text = example.readAsLinesSync();
-  final template = 'https://github.com/example/project/compare/%from%...%to%';
-
   group('Parsing', () {
-    test('Can read the example', () async {
-      final changelog = Changelog.fromLines(text);
-      expect(changelog.header, isNotEmpty);
+    group('Example', () {
+      final file = File('test/md/keepachangelog.md');
+      final changelog = parseChangelog(file.readAsStringSync());
 
-      expect(changelog.unreleased.changed.length, 1);
-      expect(changelog.unreleased.link.orThrow(() => 'Link must be set'),
-          'https://github.com/olivierlacan/keep-a-changelog/compare/v1.0.0...HEAD');
-      expect(changelog.unreleased.changed.first.toString(),
-          startsWith('Update and improvement'));
-      expect(changelog.unreleased.changed.length, 1);
-      expect(changelog.unreleased.added.length, 0);
+      test('Unreleased', () {
+        expect(changelog.unreleased, isEmpty);
+        expect(changelog.unreleased.link,
+            'https://github.com/olivierlacan/keep-a-changelog/compare/v1.0.0...HEAD');
+      });
 
-      expect(changelog.releases.length, 12);
-      final v_0_0_1 = changelog.releases.firstWhere(
-          (release) => release.version == '0.0.1',
-          orElse: () => throw 'Oops');
-      expect(v_0_0_1.link, isA<Nothing>());
-      expect(v_0_0_1.added.length, 5);
-      final v_0_0_2 = changelog.releases.firstWhere(
-          (release) => release.version == '0.0.2',
-          orElse: () => throw 'Oops');
-      expect(v_0_0_2.link.orThrow(() => 'Link must be set'),
-          'https://github.com/olivierlacan/keep-a-changelog/compare/v0.0.1...v0.0.2');
-      expect(v_0_0_2.added.length, 1);
+      test('Check if version exists', () {
+        expect(changelog.has('1.0.0'), isTrue);
+        expect(changelog.has('5.5.5'), isFalse);
+      });
+
+      test('Iterate releases', () {
+        expect(changelog.history().length, 12);
+        expect(changelog.history().first.version.toString(), '0.0.1');
+        expect(changelog.history().last.version.toString(), '1.0.0');
+      });
+
+      test('Read release properties', () {
+        expect(() => changelog.get('5.5.5'), throwsStateError);
+        expect(changelog.get('1.0.0').changes(type: 'Added').first.toString(),
+            'New visual identity by @tylerfortune8.');
+        expect(changelog.get('0.3.0').date, DateTime.parse('2015-12-03'));
+        expect(changelog.get('0.3.0').link,
+            'https://github.com/olivierlacan/keep-a-changelog/compare/v0.2.0...v0.3.0');
+        expect(changelog.get('0.0.8').link,
+            'https://github.com/olivierlacan/keep-a-changelog/compare/v0.0.7...v0.0.8');
+        expect(changelog.get('0.0.8').changes().length, 4);
+        expect(changelog.get('0.0.8').changes(type: 'Changed').length, 2);
+        expect(changelog.get('0.0.8').changes(type: 'Fixed').length, 2);
+        expect(
+            changelog.get('0.0.8').changes(type: 'Changed').last.toString(),
+            [
+              'Reluctantly stop making fun of Brits only, since most of the world',
+              'writes dates in a strange way.'
+            ].join('\n'));
+        expect(changelog.get('0.0.8').changes(type: 'Fixed').first.toString(),
+            'Fix typos in recent README changes.');
+      });
     });
 
-    test('Can read incomplete changelog', () {
-      final changelog = Changelog.fromLines(
-          File('test/example/incomplete.md').readAsLinesSync());
-      expect(changelog.unreleased.changed.single.toString(),
-          'Change without type');
-      expect(changelog.dump(),
-          File('test/example/incomplete-saved.md').readAsStringSync().trim());
+    group('Non-standard', () {
+      final file = File('test/md/non_standard.md');
+
+      test('Can be read', () {
+        final log = parseChangelog(file.readAsStringSync());
+        expect(log.unreleased, isNotEmpty);
+        expect(log.history().single.link, isEmpty);
+        expect(log.history().single.version.toString(), '0.0.1-beta+42');
+        expect(log.history().single.changes().single.type, 'Invented');
+        expect(log.unreleased.changes().single.type, 'Added');
+      });
     });
   });
 
-  group('Rendering', () {
-    test('Can read the example and render it unchanged', () {
-      final changelog = Changelog.fromLines(text);
-      expect(changelog.dump(), example.readAsStringSync());
-    });
-  });
-
-  group('Manipulation', () {
-    final step1 = File('test/example/step1.md');
-    final step2 = File('test/example/step2.md');
-    final step3 = File('test/example/step3.md');
-
-    test('Can add entries', () {
-      final changelog = Changelog.fromLines(step1.readAsLinesSync());
-      changelog.unreleased.changed.add('Programmatically added change');
-      changelog.unreleased.deprecated.add('Programmatically added deprecation');
-      expect(changelog.dump(), step2.readAsStringSync());
+  group('Printing', () {
+    group('Example', () {
+      test('Example can be written unchanged', () {
+        final file = File('test/md/keepachangelog.md');
+        final log = parseChangelog(file.readAsStringSync());
+        final markdown = printChangelog(log, keepEmptyUnreleased: true);
+        expect(markdown, file.readAsStringSync());
+      });
     });
 
+    test('Non-standard', () {
+      final original = File('test/md/non_standard.md');
+      final saved = File('test/md/non_standard_saved.md');
+      expect(printChangelog(parseChangelog(original.readAsStringSync())),
+          saved.readAsStringSync());
+    });
+
+    final step1 = File('test/md/step1.md');
+    final step2 = File('test/md/step2.md');
+    final step3 = File('test/md/step3.md');
+
+    test('Empty changelog is empty', () {
+      expect(printChangelog(Changelog()), isEmpty);
+    });
+
     test('Can add entries', () {
-      final changelog = Changelog.fromLines(step1.readAsLinesSync());
-      changelog.unreleased.changed.add('Programmatically added change');
-      changelog.unreleased.deprecated.add('Programmatically added deprecation');
-      expect(changelog.dump(), step2.readAsStringSync());
+      final changelog = parseChangelog(step1.readAsStringSync());
+      changelog.unreleased
+          .add(Change('Changed', [Text('Programmatically added change')]));
+      changelog.unreleased.add(
+          Change('Deprecated', [Text('Programmatically added deprecation')]));
+      expect(printChangelog(changelog), step2.readAsStringSync());
     });
 
     test('Can make release', () {
-      final changelog = Changelog.fromLines(step2.readAsLinesSync());
-      changelog.release('1.1.0', '2018-10-18',
-          link: 'https://github.com/example/project/compare/%from%...%to%');
-      expect(changelog.dump(), step3.readAsStringSync());
+      final changelog = parseChangelog(step2.readAsStringSync());
+      final release =
+          Release(Version.parse('1.1.0'), DateTime.parse('2018-10-18'));
+      release.addAll(changelog.unreleased.changes());
+      final parent = changelog.preceding(release.version)!;
+      release.link =
+          'https://github.com/example/project/compare/${parent.version}...${release.version}';
+      changelog.add(release);
+      changelog.unreleased.clear();
+      expect(printChangelog(changelog), step3.readAsStringSync());
     });
 
-    test('Can make initial release', () {
-      final changelog = Changelog.fromLines(
-          File('test/example/only-unreleased.md').readAsLinesSync());
-      changelog.release('1.0.0', '2018-10-18', link: template);
-      expect(changelog.dump(),
-          File('test/example/initial-release.md').readAsStringSync().trim());
-    });
-
-    test('Release supports multiple major versions', () {
-      final changelog = Changelog();
-      changelog.releases.add(Release('1.0.0', date: '2020-06-01'));
-      changelog.releases.add(Release('2.0.0', date: '2020-06-02'));
-      changelog.unreleased.added.add('My new feature');
-      changelog.release('1.1.0', '2020-06-03', link: template);
-      expect(changelog.releases.last.version, '1.1.0');
-      expect(changelog.releases.last.link.orThrow(() => 'Link must be set'),
-          'https://github.com/example/project/compare/1.0.0...1.1.0');
-    });
-
-    test('Header can not contain h2 or h3', () {
-      final changelog = Changelog();
+    test('Can print unreleased', () {
+      final log = Changelog();
+      log.unreleased.add(Change('Added', [Text('Some change')]));
+      log.unreleased.link = 'https://example.com';
       expect(
-          () => changelog.setHeader([
-                Element('h2', [Text('Release header')])
-              ]),
-          throwsFormatException);
-      expect(
-          () => changelog.setHeader([
-                Element('h3', [Text('Type header')])
-              ]),
-          throwsFormatException);
+          printUnreleased(log.unreleased),
+          [
+            '## [Unreleased]',
+            '### Added',
+            '- Some change',
+            '',
+            '[Unreleased]: https://example.com',
+          ].join('\n'));
     });
 
-    test('Can change header', () {
-      final changelog = Changelog();
-
-      changelog.setHeader([
-        Element('h1', [Text('My changelog')])
-      ]);
-      expect(changelog.dump(), '# My changelog');
+    test('Can print release', () {
+      final release =
+          Release(Version.parse('0.0.1'), DateTime.parse('2020-02-02'));
+      release.add(Change('Added', [Text('Some change')]));
+      release.link = 'https://example.com';
+      expect(
+          printRelease(release),
+          [
+            '## [0.0.1] - 2020-02-02',
+            '### Added',
+            '- Some change',
+            '',
+            '[0.0.1]: https://example.com',
+          ].join('\n'));
     });
   });
 }
