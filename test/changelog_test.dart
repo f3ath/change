@@ -65,7 +65,7 @@ void main() {
     });
   });
 
-  group('Writing', () {
+  group('Printing', () {
     group('Example', () {
       test('Example can be written unchanged', () {
         final file = File('test/md/keepachangelog.md');
@@ -110,6 +110,37 @@ void main() {
       changelog.add(release);
       changelog.unreleased.clear();
       expect(printChangelog(changelog), step3.readAsStringSync());
+    });
+
+    test('Can print unreleased', () {
+      final log = Changelog();
+      log.unreleased.add(Change('Added', [Text('Some change')]));
+      log.unreleased.link = 'https://example.com';
+      expect(
+          printUnreleased(log.unreleased),
+          [
+            '## [Unreleased]',
+            '### Added',
+            '- Some change',
+            '',
+            '[Unreleased]: https://example.com',
+          ].join('\n'));
+    });
+
+    test('Can print release', () {
+      final release =
+          Release(Version.parse('0.0.1'), DateTime.parse('2020-02-02'));
+      release.add(Change('Added', [Text('Some change')]));
+      release.link = 'https://example.com';
+      expect(
+          printRelease(release),
+          [
+            '## [0.0.1] - 2020-02-02',
+            '### Added',
+            '- Some change',
+            '',
+            '[0.0.1]: https://example.com',
+          ].join('\n'));
     });
   });
 }
