@@ -8,8 +8,8 @@ class Section {
   String link = '';
 
   /// Changes in the change set, optionally filtered by [type]
-  Iterable<Change> changes([String type = '']) {
-    if (type.isEmpty) return _changes;
+  Iterable<Change> changes({String? type}) {
+    if (type == null) return _changes;
     return _changes.where((_) => _.type == type);
   }
 
@@ -29,8 +29,9 @@ class Section {
   /// True if the section contains changes
   bool get isNotEmpty => _changes.isNotEmpty;
 
-  /// Removes all changes
+  /// Removes all changes and the link
   void clear() {
     _changes.clear();
+    link = '';
   }
 }

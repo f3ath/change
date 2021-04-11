@@ -2,13 +2,14 @@ import 'dart:io';
 
 import 'package:change/change.dart';
 import 'package:markdown/markdown.dart';
+import 'package:pub_semver/pub_semver.dart';
 import 'package:test/test.dart';
 
 void main() {
   group('Parsing', () {
     group('Example', () {
       final file = File('test/md/keepachangelog.md');
-      final changelog = Changelog.parse(file.readAsStringSync());
+      final changelog = parseChangelog(file.readAsStringSync());
 
       test('Unreleased', () {
         expect(changelog.unreleased, isEmpty);
@@ -29,23 +30,23 @@ void main() {
 
       test('Read release properties', () {
         expect(() => changelog.get('5.5.5'), throwsStateError);
-        expect(changelog.get('1.0.0').changes('Added').first.toString(),
+        expect(changelog.get('1.0.0').changes(type: 'Added').first.toString(),
             'New visual identity by @tylerfortune8.');
-        expect(changelog.get('0.3.0').date, '2015-12-03');
+        expect(changelog.get('0.3.0').date, DateTime.parse('2015-12-03'));
         expect(changelog.get('0.3.0').link,
             'https://github.com/olivierlacan/keep-a-changelog/compare/v0.2.0...v0.3.0');
         expect(changelog.get('0.0.8').link,
             'https://github.com/olivierlacan/keep-a-changelog/compare/v0.0.7...v0.0.8');
         expect(changelog.get('0.0.8').changes().length, 4);
-        expect(changelog.get('0.0.8').changes('Changed').length, 2);
-        expect(changelog.get('0.0.8').changes('Fixed').length, 2);
+        expect(changelog.get('0.0.8').changes(type: 'Changed').length, 2);
+        expect(changelog.get('0.0.8').changes(type: 'Fixed').length, 2);
         expect(
-            changelog.get('0.0.8').changes('Changed').last.toString(),
+            changelog.get('0.0.8').changes(type: 'Changed').last.toString(),
             [
               'Reluctantly stop making fun of Brits only, since most of the world',
               'writes dates in a strange way.'
             ].join('\n'));
-        expect(changelog.get('0.0.8').changes('Fixed').first.toString(),
+        expect(changelog.get('0.0.8').changes(type: 'Fixed').first.toString(),
             'Fix typos in recent README changes.');
       });
     });
@@ -54,7 +55,7 @@ void main() {
       final file = File('test/md/non_standard.md');
 
       test('Can be read', () {
-        final log = Changelog.parse(file.readAsStringSync());
+        final log = parseChangelog(file.readAsStringSync());
         expect(log.unreleased, isNotEmpty);
         expect(log.history().single.link, isEmpty);
         expect(log.history().single.version.toString(), '0.0.1-beta+42');
@@ -68,17 +69,16 @@ void main() {
     group('Example', () {
       test('Example can be written unchanged', () {
         final file = File('test/md/keepachangelog.md');
-        expect(
-            Changelog.parse(file.readAsStringSync())
-                .toString(keepEmptyUnreleased: true),
-            file.readAsStringSync());
+        final log = parseChangelog(file.readAsStringSync());
+        final markdown = printChangelog(log, keepEmptyUnreleased: true);
+        expect(markdown, file.readAsStringSync());
       });
     });
 
     test('Non-standard', () {
       final original = File('test/md/non_standard.md');
       final saved = File('test/md/non_standard_saved.md');
-      expect(Changelog.parse(original.readAsStringSync()).toString(),
+      expect(printChangelog(parseChangelog(original.readAsStringSync())),
           saved.readAsStringSync());
     });
 
@@ -87,29 +87,29 @@ void main() {
     final step3 = File('test/md/step3.md');
 
     test('Empty changelog is empty', () {
-      expect(Changelog().toString(), isEmpty);
+      expect(printChangelog(Changelog()), isEmpty);
     });
 
     test('Can add entries', () {
-      final changelog = Changelog.parse(step1.readAsStringSync());
+      final changelog = parseChangelog(step1.readAsStringSync());
       changelog.unreleased
           .add(Change('Changed', [Text('Programmatically added change')]));
       changelog.unreleased.add(
           Change('Deprecated', [Text('Programmatically added deprecation')]));
-      expect(changelog.toString(), step2.readAsStringSync());
+      expect(printChangelog(changelog), step2.readAsStringSync());
     });
 
     test('Can make release', () {
-      final changelog = Changelog.parse(step2.readAsStringSync());
-      final release = Release('1.1.0', '2018-10-18');
+      final changelog = parseChangelog(step2.readAsStringSync());
+      final release =
+          Release(Version.parse('1.1.0'), DateTime.parse('2018-10-18'));
       release.addAll(changelog.unreleased.changes());
-      final parent =
-          changelog.history().lastWhere((r) => r.version < release.version);
+      final parent = changelog.preceding(release.version)!;
       release.link =
           'https://github.com/example/project/compare/${parent.version}...${release.version}';
       changelog.add(release);
       changelog.unreleased.clear();
-      expect(changelog.toString(), step3.readAsStringSync());
+      expect(printChangelog(changelog), step3.readAsStringSync());
     });
   });
 }

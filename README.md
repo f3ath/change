@@ -21,7 +21,7 @@ import 'package:change/change.dart';
 /// Run it from the project root folder: `dart example/main.dart`
 void main() {
   final file = File('CHANGELOG.md');
-  final log = Changelog.parse(file.readAsStringSync());
+  final log = parseChangelog(file.readAsStringSync());
   final latest = log.history().last;
   print('Changelog contains ${log.history().length} releases.');
   print('The latest version is ${latest.version}');
