@@ -1,11 +1,12 @@
 # Changelog
 This project follows [Semantic Versioning 2.0.0](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.3.0] - 2021-04-11
 ### Changed
-- **This is another complete rewrite of the library, not compatible with previous versions**!
 - Release date is now required for each version.
 - Change types are not limited by the ones listed by semver.
+- Parsing and printing moved to standalone functions.
+
 ### Removed
 - Dependency on `maybe_just_nothing`.
 - Dependency on `dart:io`.
@@ -86,7 +87,7 @@ This project follows [Semantic Versioning 2.0.0](https://semver.org/spec/v2.0.0.
 - Parsing from markdown
 - Writing to markdown
 
-[Unreleased]: https://github.com/f3ath/change/compare/0.2.0...HEAD
+[0.3.0]: https://github.com/f3ath/change/compare/0.2.0...0.3.0
 [0.2.0]: https://github.com/f3ath/change/compare/0.1.1...0.2.0
 [0.1.1]: https://github.com/f3ath/change/compare/0.1.0...0.1.1
 [0.1.0]: https://github.com/f3ath/change/compare/0.0.13...0.1.0
