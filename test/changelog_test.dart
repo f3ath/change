@@ -112,6 +112,14 @@ void main() {
       expect(printChangelog(changelog), step3.readAsStringSync());
     });
 
+    test('Can not add an existing release', () {
+      final changelog = parseChangelog(step1.readAsStringSync());
+      final release =
+          Release(Version.parse('1.0.0'), DateTime.parse('2018-10-18'));
+      release.add(Change('Added', [Text('Something')]));
+      expect(() => changelog.add(release), throwsStateError);
+    });
+
     test('Can print unreleased', () {
       final log = Changelog();
       log.unreleased.add(Change('Added', [Text('Some change')]));
