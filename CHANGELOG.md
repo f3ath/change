@@ -1,6 +1,11 @@
 # Changelog
 This project follows [Semantic Versioning 2.0.0](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.1] - 2021-12-28
+### Changed
+- Updated dependencies
+- Prevent adding an existig release
+
 ## [0.3.0] - 2021-04-11
 ### Changed
 - Release date is now required for each version.
@@ -87,6 +92,7 @@ This project follows [Semantic Versioning 2.0.0](https://semver.org/spec/v2.0.0.
 - Parsing from markdown
 - Writing to markdown
 
+[0.3.1]: https://github.com/f3ath/change/compare/0.3.0...0.3.1
 [0.3.0]: https://github.com/f3ath/change/compare/0.2.0...0.3.0
 [0.2.0]: https://github.com/f3ath/change/compare/0.1.1...0.2.0
 [0.1.1]: https://github.com/f3ath/change/compare/0.1.0...0.1.1

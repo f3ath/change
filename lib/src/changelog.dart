@@ -23,16 +23,17 @@ class Changelog {
 
   /// Returns the release by version or throws [StateError]
   Release get(String version) =>
-      _releases[version.trim().toLowerCase()] ??
+      _releases[_normalize(version)] ??
       (throw StateError('Version $version not found'));
 
   /// Returns `true` if the [version] exists in the changelog
-  bool has(String version) =>
-      _releases.containsKey(version.trim().toLowerCase());
+  bool has(String version) => _releases.containsKey(_normalize(version));
 
   /// Adds a new release
   void add(Release release) {
-    _releases[release.version.toString().toLowerCase()] = release;
+    final version = _normalize(release.version.toString());
+    if (has(version)) throw StateError('Release $version already exists');
+    _releases[version] = release;
   }
 
   /// Returns the release which immediately precedes the [version]
@@ -40,4 +41,6 @@ class Changelog {
     final older = history().where((r) => r.version < version).toList();
     if (older.isNotEmpty) return older.last;
   }
+
+  String _normalize(String version) => version.trim().toLowerCase();
 }
