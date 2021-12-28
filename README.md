@@ -9,7 +9,7 @@ Changelog manipulation in Dart. For the command-line tool, see [Cider](https://p
 - Works with changelogs following [keepachangelog](https://keepachangelog.com/en/1.0.0/) format only.
 - [Semantic versioning](https://semver.org/) is implied.
 - Dates must be in ISO 8601 (YYYY-MM-DD) format.
-- Complex Markdown (e.g. tables, HTML, etc) will not work. For better markdown support consider opening a PR to [marker](https://github.com/f3ath/marker).
+- Complex Markdown (e.g. tables, nested lists, HTML, etc) will not work. For a better markdown support consider opening a PR to [marker](https://github.com/f3ath/marker).
 
 ## Example
 ```dart
