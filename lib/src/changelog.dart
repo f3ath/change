@@ -40,6 +40,7 @@ class Changelog {
   Release? preceding(Version version) {
     final older = history().where((r) => r.version < version).toList();
     if (older.isNotEmpty) return older.last;
+    return null;
   }
 
   String _normalize(String version) => version.trim().toLowerCase();
