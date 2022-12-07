@@ -25,7 +25,7 @@ String printUnreleased(Section unreleased) => render(
       flavor: flavors.changelog,
     );
 
-final _iso8601 = DateFormat('yyyy-MM-dd');
+final _iso8601 = DateFormat('yyyy-MM-dd').format;
 
 Iterable<Node> _changelog(Changelog log,
     {bool keepEmptyUnreleased = false}) sync* {
@@ -51,7 +51,7 @@ Iterable<Element> _unreleased(Section section) sync* {
 
 Iterable<Element> _release(Release section) sync* {
   final header = <Node>[];
-  final dateSuffix = ' - ' + _iso8601.format(section.date);
+  final dateSuffix = ' - ${_iso8601(section.date)}';
   final sectionLink = section.link;
   if (sectionLink.isNotEmpty) {
     header.add(_link(sectionLink, [Text(section.version.toString())]));

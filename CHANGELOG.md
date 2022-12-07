@@ -1,9 +1,13 @@
 # Changelog
 This project follows [Semantic Versioning 2.0.0](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.0] - 2022-12-06
+### Changed
+- Updated dependencies: markdown to 6.0.0, marker to 0.4.0
+
 ## [0.4.0] - 2022-05-09
 ### Changed
-- Bumped the versions of dependencies: markdown to 5.0.0, marker to 0.3.0, pub_semver to 2.1.1
+- Bumped the versions of dependencies: markdown to 5.0.0, marker to 0.3.0, pub\_semver to 2.1.1
 - Bumped the SDK version to 2.16.2
 
 ## [0.3.1] - 2021-12-28
@@ -97,6 +101,7 @@ This project follows [Semantic Versioning 2.0.0](https://semver.org/spec/v2.0.0.
 - Parsing from markdown
 - Writing to markdown
 
+[0.5.0]: https://github.com/f3ath/change/compare/0.4.0...0.5.0
 [0.4.0]: https://github.com/f3ath/change/compare/0.3.1...0.4.0
 [0.3.1]: https://github.com/f3ath/change/compare/0.3.0...0.3.1
 [0.3.0]: https://github.com/f3ath/change/compare/0.2.0...0.3.0
