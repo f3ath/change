@@ -60,6 +60,12 @@ void main() {
         expect(changelog.get('0.4.0').isYanked, isTrue);
         expect(changelog.get('0.5.0').isYanked, isTrue);
       });
+
+      test('Invalid header', () {
+        final file = File('test/md/bad_header.md');
+        expect(() => parseChangelog(file.readAsStringSync()),
+            throwsFormatException);
+      });
     });
 
     group('Non-standard', () {
