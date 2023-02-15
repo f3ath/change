@@ -1,5 +1,5 @@
 name: change
-version: 0.5.0
+version: 0.6.0
 description: A Changelog manipulation library. Read/modify/write your CHANGELOG.md. Inspired by keepachangelog.com.
 homepage: "https://github.com/f3ath/change"
 
@@ -9,11 +9,11 @@ cider:
     diff: 'https://github.com/f3ath/change/compare/%from%...%to%' # subsequent releases link template
 
 environment:
-  sdk: ">=2.16.2 <3.0.0"
+  sdk: ">=2.19.0 <4.0.0"
 
 dependencies:
-  markdown: ^6.0.0
-  marker: ^0.4.0
+  markdown: ^7.0.0
+  marker: ^0.5.0
   pub_semver: ^2.1.1
   intl: '>=0.17.0 <1.0.0'
 

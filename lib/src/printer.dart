@@ -49,18 +49,21 @@ Iterable<Element> _unreleased(Section section) sync* {
   yield* _changes(section);
 }
 
-Iterable<Element> _release(Release section) sync* {
+Iterable<Element> _release(Release release) sync* {
   final header = <Node>[];
-  final dateSuffix = ' - ${_iso8601(section.date)}';
-  final sectionLink = section.link;
+  final dateSuffix = ' - ${_iso8601(release.date)}';
+  final sectionLink = release.link;
   if (sectionLink.isNotEmpty) {
-    header.add(_link(sectionLink, [Text(section.version.toString())]));
+    header.add(_link(sectionLink, [Text(release.version.toString())]));
     header.add(Text(dateSuffix));
   } else {
-    header.add(Text(section.version.toString() + dateSuffix));
+    header.add(Text(release.version.toString() + dateSuffix));
+  }
+  if (release.isYanked) {
+    header.add(Text(' [YANKED]'));
   }
   yield Element('h2', header);
-  yield* _changes(section);
+  yield* _changes(release);
 }
 
 Iterable<Element> _changes(Section section) sync* {

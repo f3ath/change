@@ -16,13 +16,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - "Frequently Asked Questions" section.
 - New "Guiding Principles" sub-section to "How do I make a changelog?".
 - Simplified and Traditional Chinese translations from [@tianshuo](https://github.com/tianshuo).
-- German translation from [@mpbzh](https://github.com/mpbzh) &amp; [@Art4](https://github.com/Art4).
+- German translation from [@mpbzh](https://github.com/mpbzh) & [@Art4](https://github.com/Art4).
 - Italian translation from [@azkidenz](https://github.com/azkidenz).
 - Swedish translation from [@magol](https://github.com/magol).
 - Turkish translation from [@karalamalar](https://github.com/karalamalar).
 - French translation from [@zapashcanon](https://github.com/zapashcanon).
 - Brazilian Portugese translation from [@Webysther](https://github.com/Webysther).
-- Polish translation from [@amielucha](https://github.com/amielucha) &amp; [@m-aciek](https://github.com/m-aciek).
+- Polish translation from [@amielucha](https://github.com/amielucha) & [@m-aciek](https://github.com/m-aciek).
 - Russian translation from [@aishek](https://github.com/aishek).
 - Czech translation from [@h4vry](https://github.com/h4vry).
 - Slovak translation from [@jkostolansky](https://github.com/jkostolansky).

@@ -49,6 +49,17 @@ void main() {
         expect(changelog.get('0.0.8').changes(type: 'Fixed').first.toString(),
             'Fix typos in recent README changes.');
       });
+
+      test('Yanked releases', () {
+        final file = File('test/md/yanked.md');
+        final changelog = parseChangelog(file.readAsStringSync());
+
+        expect(changelog.get('0.1.0').isYanked, isFalse);
+        expect(changelog.get('0.2.0').isYanked, isTrue);
+        expect(changelog.get('0.3.0').isYanked, isTrue);
+        expect(changelog.get('0.4.0').isYanked, isTrue);
+        expect(changelog.get('0.5.0').isYanked, isTrue);
+      });
     });
 
     group('Non-standard', () {
@@ -85,6 +96,7 @@ void main() {
     final step1 = File('test/md/step1.md');
     final step2 = File('test/md/step2.md');
     final step3 = File('test/md/step3.md');
+    final step4 = File('test/md/step4.md');
 
     test('Empty changelog is empty', () {
       expect(printChangelog(Changelog()), isEmpty);
@@ -110,6 +122,12 @@ void main() {
       changelog.add(release);
       changelog.unreleased.clear();
       expect(printChangelog(changelog), step3.readAsStringSync());
+    });
+
+    test('Can yank release', () {
+      final changelog = parseChangelog(step3.readAsStringSync());
+      changelog.get('1.1.0').isYanked = true;
+      expect(printChangelog(changelog), step4.readAsStringSync());
     });
 
     test('Can not add an existing release', () {

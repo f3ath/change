@@ -2,15 +2,18 @@ import 'package:change/src/section.dart';
 import 'package:pub_semver/pub_semver.dart';
 
 class Release extends Section implements Comparable<Release> {
-  Release(this.version, this.date);
+  Release(this.version, this.date, {this.isYanked = false});
 
-  /// Release version
-  final Version version;
+  /// Release version.
+  Version version;
 
-  /// Release date
-  final DateTime date;
+  /// Release date.
+  DateTime date;
 
-  /// Compares releases by date (oldest fist) and version (lower first)
+  /// True for yanked releases.
+  bool isYanked;
+
+  /// Compares releases by date (oldest first) and version (lower first).
   @override
   int compareTo(Release other) {
     final byDate = date.compareTo(other.date);

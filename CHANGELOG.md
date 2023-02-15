@@ -1,6 +1,16 @@
 # Changelog
 This project follows [Semantic Versioning 2.0.0](https://semver.org/spec/v2.0.0.html).
 
+## [0.6.0] - 2023-02-14
+### Added
+- You may pass an instance of markdown `Document` to the `parseChangelog()` to have fine-grained control over parsing, e.g. whether to encode HTML entities
+- Support for \[YANKED\] releases
+
+### Changed
+- Bumped `markdown` to 7.0.0
+- Bumped `marker` to 0.5.0
+- HTML entities (ampersands, quotes, etc) are NOT encoded by default
+
 ## [0.5.0] - 2022-12-06
 ### Changed
 - Updated dependencies: markdown to 6.0.0, marker to 0.4.0
@@ -101,6 +111,7 @@ This project follows [Semantic Versioning 2.0.0](https://semver.org/spec/v2.0.0.
 - Parsing from markdown
 - Writing to markdown
 
+[0.6.0]: https://github.com/f3ath/change/compare/0.5.0...0.6.0
 [0.5.0]: https://github.com/f3ath/change/compare/0.4.0...0.5.0
 [0.4.0]: https://github.com/f3ath/change/compare/0.3.1...0.4.0
 [0.3.1]: https://github.com/f3ath/change/compare/0.3.0...0.3.1

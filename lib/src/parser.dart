@@ -6,11 +6,13 @@ import 'package:change/src/release.dart';
 import 'package:markdown/markdown.dart';
 import 'package:pub_semver/pub_semver.dart';
 
-/// Parses the [Changelog] from a markdown string
-Changelog parseChangelog(String markdown) {
-  final log = Changelog();
-  final doc = Document();
+/// Parses the [Changelog] from a markdown string.
+/// Pass the [document] instance to have fine-grained control over markdown
+/// parsing, such as extensions and html encoding.
+Changelog parseChangelog(String markdown, {Document? document}) {
+  final doc = document ?? Document(encodeHtml: false);
   final sections = <List<Node>>[];
+  final log = Changelog();
   for (final node in doc.parseLines(LineSplitter.split(markdown).toList())) {
     if (_isUnreleased(node) || _isRelease(node)) {
       sections.add([node]);
@@ -48,10 +50,20 @@ bool _isRelease(Node node) =>
 
 Release _release(Iterable<Node> nodes) {
   final header = nodes.first.textContent.trim();
-  final parts = header.split(' - ');
-  final version = Version.parse(parts[0].trim());
-  final parse = DateTime.parse(parts[1].trim());
-  final release = Release(version, parse);
+  final regex = RegExp(r'(^.+)\s+-\s+(\d{4}-\d{2}-\d{2})(\s+\[YANKED\])?$',
+      caseSensitive: false);
+  final match = regex.firstMatch(header);
+  if (match == null) {
+    throw FormatException('Invalid release header format: "$header"');
+  }
+  final version = match.group(1)!.trim();
+  final date = match.group(2)!.trim();
+  final isYanked = match.group(3) != null;
+  final release = Release(
+    Version.parse(version),
+    DateTime.parse(date),
+    isYanked: isYanked,
+  );
   _changes(nodes.skip(1)).forEach(release.add);
   return release;
 }
