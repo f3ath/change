@@ -1,11 +1,19 @@
 import 'package:change/src/change.dart';
+import 'package:markdown/markdown.dart' show Node;
 
 /// A release or the unreleased section
 class Section {
+  Section.copy(Section other)
+      : _changes = other._changes,
+        link = other.link,
+        _header = other.header;
+
   final _changes = <Change>[];
 
   /// Section link. Usually, the diff
   String link = '';
+
+  List<Node> _header = [];
 
   /// Changes in the change set, optionally filtered by [type]
   Iterable<Change> changes({String? type}) {
@@ -23,6 +31,16 @@ class Section {
     _changes.addAll(changes);
   }
 
+  /// Set header nodes
+  void set setHeader(List<Node> header) {
+    _header = header;
+  }
+
+  /// Get header nodes
+  List<Node> get header {
+    return _header;
+  }
+
   /// True if the section contains not changes
   bool get isEmpty => _changes.isEmpty;
 
@@ -33,5 +51,6 @@ class Section {
   void clear() {
     _changes.clear();
     link = '';
+    setHeader = [];
   }
 }

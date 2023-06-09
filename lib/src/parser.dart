@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:change/src/change.dart';
 import 'package:change/src/changelog.dart';
 import 'package:change/src/release.dart';
+import 'package:change/src/section.dart';
 import 'package:markdown/markdown.dart';
 import 'package:pub_semver/pub_semver.dart';
 
@@ -24,7 +25,7 @@ Changelog parseChangelog(String markdown, {Document? document}) {
   }
   for (final nodes in sections) {
     if (_isUnreleased(nodes.first)) {
-      _changes(nodes.skip(1)).forEach(log.unreleased.add);
+      _parseSection(log.unreleased, nodes.skip(1));
       log.unreleased.link = doc.linkReferences['unreleased']?.destination ?? '';
     } else {
       final release = _release(nodes);
@@ -64,8 +65,15 @@ Release _release(Iterable<Node> nodes) {
     DateTime.parse(date),
     isYanked: isYanked,
   );
-  _changes(nodes.skip(1)).forEach(release.add);
+  _parseSection(release, nodes.skip(1));
   return release;
+}
+
+void _parseSection(Section section, Iterable<Node> contents) {
+  section.setHeader = contents.takeWhile((node) {
+    return node is Text || (node as Element).tag != 'h3';
+  }).toList();
+  _changes(contents.skip(section.header.length)).forEach(section.add);
 }
 
 List<Change> _changes(Iterable<Node> nodes) {

@@ -4,6 +4,10 @@ import 'package:pub_semver/pub_semver.dart';
 class Release extends Section implements Comparable<Release> {
   Release(this.version, this.date, {this.isYanked = false});
 
+  Release.fromSection(this.version, this.date, Section section,
+      {this.isYanked = false})
+      : super.copy(section);
+
   /// Release version.
   Version version;
 
