@@ -67,19 +67,6 @@ void main() {
             throwsFormatException);
       });
     });
-
-    group('Non-standard', () {
-      final file = File('test/md/non_standard.md');
-
-      test('Can be read', () {
-        final log = parseChangelog(file.readAsStringSync());
-        expect(log.unreleased, isNotEmpty);
-        expect(log.history().single.link, isEmpty);
-        expect(log.history().single.version.toString(), '0.0.1-beta+42');
-        expect(log.history().single.changes().single.type, 'Invented');
-        expect(log.unreleased.changes().single.type, 'Added');
-      });
-    });
   });
 
   group('Printing', () {
@@ -90,13 +77,6 @@ void main() {
         final markdown = printChangelog(log, keepEmptyUnreleased: true);
         expect(markdown, file.readAsStringSync());
       });
-    });
-
-    test('Non-standard', () {
-      final original = File('test/md/non_standard.md');
-      final saved = File('test/md/non_standard_saved.md');
-      expect(printChangelog(parseChangelog(original.readAsStringSync())),
-          saved.readAsStringSync());
     });
 
     final step1 = File('test/md/step1.md');
@@ -173,6 +153,25 @@ void main() {
             '',
             '[0.0.1]: https://example.com',
           ].join('\n'));
+    });
+  });
+
+  group('Non-standard', () {
+    final file = File('test/md/non_standard.md');
+
+    test('Reading', () {
+      final log = parseChangelog(file.readAsStringSync());
+      expect(log.unreleased, isNotEmpty);
+      expect(log.history().single.link, isEmpty);
+      expect(log.history().single.version.toString(), '0.0.1-beta+42');
+      expect(log.history().single.changes().single.type, 'Invented');
+      expect(log.unreleased.changes().single.type, 'Added');
+    });
+
+    test('Writing', () {
+      final saved = File('test/md/non_standard_saved.md');
+      expect(printChangelog(parseChangelog(file.readAsStringSync())),
+          saved.readAsStringSync());
     });
   });
 }

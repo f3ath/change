@@ -46,6 +46,7 @@ Iterable<Element> _unreleased(Section section) sync* {
     header.add(_link(sectionLink, [text]));
   }
   yield Element('h2', header);
+  yield* section.preamble;
   yield* _changes(section);
 }
 
@@ -63,6 +64,7 @@ Iterable<Element> _release(Release release) sync* {
     header.add(Text(' [YANKED]'));
   }
   yield Element('h2', header);
+  yield* release.preamble;
   yield* _changes(release);
 }
 

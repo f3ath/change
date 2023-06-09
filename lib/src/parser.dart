@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:change/src/change.dart';
 import 'package:change/src/changelog.dart';
 import 'package:change/src/release.dart';
+import 'package:change/src/section.dart';
 import 'package:markdown/markdown.dart';
 import 'package:pub_semver/pub_semver.dart';
 
@@ -24,7 +25,7 @@ Changelog parseChangelog(String markdown, {Document? document}) {
   }
   for (final nodes in sections) {
     if (_isUnreleased(nodes.first)) {
-      _changes(nodes.skip(1)).forEach(log.unreleased.add);
+      _parseInto(log.unreleased, nodes.skip(1));
       log.unreleased.link = doc.linkReferences['unreleased']?.destination ?? '';
     } else {
       final release = _release(nodes);
@@ -64,22 +65,24 @@ Release _release(Iterable<Node> nodes) {
     DateTime.parse(date),
     isYanked: isYanked,
   );
-  _changes(nodes.skip(1)).forEach(release.add);
+  _parseInto(release, nodes.skip(1));
   return release;
 }
 
-List<Change> _changes(Iterable<Node> nodes) {
-  final changes = <Change>[];
+void _parseInto(Section section, Iterable<Node> nodes) {
   var type = 'Changed';
+  var headerFinished = false;
   for (final node in nodes.whereType<Element>()) {
     if (node.tag == 'h3') {
+      headerFinished = true;
       type = node.textContent.trim();
+    } else if (!headerFinished) {
+      section.preamble.add(node);
     } else if (node.tag == 'ul') {
       node.children!
           .whereType<Element>()
           .map((node) => Change(type, node.children!))
-          .forEach(changes.add);
+          .forEach(section.add);
     }
   }
-  return changes;
 }

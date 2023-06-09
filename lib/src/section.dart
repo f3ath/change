@@ -1,8 +1,14 @@
 import 'package:change/src/change.dart';
+import 'package:markdown/markdown.dart';
 
 /// A release or the unreleased section
 class Section {
   final _changes = <Change>[];
+
+  /// Free text which precedes the actual list of changes.
+  /// The Keepachangelog standard does not specify this part but we support
+  /// it since there's a demand for it.
+  final preamble = <Element>[];
 
   /// Section link. Usually, the diff
   String link = '';
@@ -33,5 +39,6 @@ class Section {
   void clear() {
     _changes.clear();
     link = '';
+    preamble.clear();
   }
 }
