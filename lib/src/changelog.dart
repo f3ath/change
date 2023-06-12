@@ -7,8 +7,8 @@ class Changelog {
   /// Releases mapped by version
   final _releases = <String, Release>{};
 
-  /// Changelog header which comes on top of the file before the Unreleased
-  /// and version sections.
+  /// Free text which comes on top of the file before the Unreleased section
+  /// and the releases.
   final header = <Node>[];
 
   /// The unreleased changes.

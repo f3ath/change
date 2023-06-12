@@ -1,15 +1,10 @@
 name: change
-version: 0.6.0
+version: 0.7.0
 description: A Changelog manipulation library. Read/modify/write your CHANGELOG.md. Inspired by keepachangelog.com.
 homepage: "https://github.com/f3ath/change"
 
-cider:
-  link_template:
-    tag: 'https://github.com/f3ath/change/releases/tag/%tag%' # initial release link template
-    diff: 'https://github.com/f3ath/change/compare/%from%...%to%' # subsequent releases link template
-
 environment:
-  sdk: ">=2.19.0 <4.0.0"
+  sdk: '>=3.0.0 <4.0.0'
 
 dependencies:
   markdown: ^7.0.0
@@ -23,3 +18,7 @@ dev_dependencies:
   coverage: ^1.2.0
   check_coverage: ^0.0.4
 
+cider:
+  link_template:
+    tag: 'https://github.com/f3ath/change/releases/tag/%tag%' # initial release link template
+    diff: 'https://github.com/f3ath/change/compare/%from%...%to%' # subsequent releases link template
