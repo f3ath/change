@@ -25,6 +25,14 @@ String printUnreleased(Section unreleased) => render(
       flavor: flavors.changelog,
     );
 
+/// Converts the Unreleased/Release [section] to a markdown string.
+/// This is the same as [printRelease] and [printUnreleased] but skips
+/// the header line and the bottom (non-inline) links section.
+String printChanges(Section section) => render(
+      _changes(section),
+      flavor: flavors.changelog,
+    );
+
 final _iso8601 = DateFormat('yyyy-MM-dd').format;
 
 Iterable<Node> _changelog(Changelog log,
@@ -46,7 +54,6 @@ Iterable<Element> _unreleased(Section section) sync* {
     header.add(_link(sectionLink, [text]));
   }
   yield Element('h2', header);
-  yield* section.preamble;
   yield* _changes(section);
 }
 
@@ -64,11 +71,11 @@ Iterable<Element> _release(Release release) sync* {
     header.add(Text(' [YANKED]'));
   }
   yield Element('h2', header);
-  yield* release.preamble;
   yield* _changes(release);
 }
 
 Iterable<Element> _changes(Section section) sync* {
+  yield* section.preamble;
   final types = Set.of(section.changes().map((e) => e.type)).toList();
   types.sort();
   for (final type in types) {
