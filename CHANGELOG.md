@@ -3,8 +3,7 @@ This project follows [Semantic Versioning 2.0.0](https://semver.org/spec/v2.0.0.
 
 ## [0.7.0] - 2023-06-11
 ### Added
-- keep freetext directly under release headings
-- Support for section preamble
+- Keep freetext directly under release headings
 
 ### Changed
 - Min SDK version is 3.0.0
