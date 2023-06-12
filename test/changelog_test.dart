@@ -154,6 +154,44 @@ void main() {
             '[0.0.1]: https://example.com',
           ].join('\n'));
     });
+
+    test('Can print changes from a release', () {
+      final release =
+          Release(Version.parse('0.0.1'), DateTime.parse('2020-02-02'));
+      release.add(Change('Added', [Text('Some change')]));
+      release.add(Change('Fixed', [Text('A nasty bug')]));
+      release.preamble.add(Element('p', [Text('This is the preamble.')]));
+      release.link = 'https://example.com';
+      expect(
+          printChanges(release),
+          [
+            'This is the preamble.',
+            '',
+            '### Added',
+            '- Some change',
+            '',
+            '### Fixed',
+            '- A nasty bug',
+          ].join('\n'));
+    });
+
+    test('Can print unreleased changes', () {
+      final unreleased = Section();
+      unreleased.add(Change('Added', [Text('Some change')]));
+      unreleased.add(Change('Fixed', [Text('A nasty bug')]));
+      unreleased.preamble.add(Element('p', [Text('This is the preamble.')]));
+      expect(
+          printChanges(unreleased),
+          [
+            'This is the preamble.',
+            '',
+            '### Added',
+            '- Some change',
+            '',
+            '### Fixed',
+            '- A nasty bug',
+          ].join('\n'));
+    });
   });
 
   group('Non-standard', () {
