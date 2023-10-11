@@ -1,6 +1,10 @@
 # Changelog
 This project follows [Semantic Versioning 2.0.0](https://semver.org/spec/v2.0.0.html).
 
+## [0.7.2] - 2023-10-10
+### Changed
+- Bumped dependencies
+
 ## [0.7.1] - 2023-06-11
 ### Added
 - The `printChanges() function to print changes only and skip the header part
@@ -122,6 +126,7 @@ This project follows [Semantic Versioning 2.0.0](https://semver.org/spec/v2.0.0.
 - Parsing from markdown
 - Writing to markdown
 
+[0.7.2]: https://github.com/f3ath/change/compare/0.7.1...0.7.2
 [0.7.1]: https://github.com/f3ath/change/compare/0.7.0...0.7.1
 [0.7.0]: https://github.com/f3ath/change/compare/0.6.0...0.7.0
 [0.6.0]: https://github.com/f3ath/change/compare/0.5.0...0.6.0
