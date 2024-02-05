@@ -1,5 +1,5 @@
 name: change
-version: 0.7.2
+version: 0.7.3
 description: A Changelog manipulation library. Read/modify/write your CHANGELOG.md. Inspired by keepachangelog.com.
 homepage: "https://github.com/f3ath/change"
 
@@ -10,10 +10,10 @@ dependencies:
   markdown: ^7.0.0
   marker: ^0.6.0
   pub_semver: ^2.1.1
-  intl: ^0.18.0
+  intl: ^0.19.0
 
 dev_dependencies:
-  lints: ^2.0.1
+  lints: ^3.0.0
   test: ^1.21.1
   coverage: ^1.2.0
   check_coverage: ^0.0.4
