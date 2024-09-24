@@ -14,10 +14,8 @@ class Section {
   String link = '';
 
   /// Changes in the change set, optionally filtered by [type]
-  Iterable<Change> changes({String? type}) {
-    if (type == null) return _changes;
-    return _changes.where((_) => _.type == type);
-  }
+  Iterable<Change> changes({String? type}) =>
+      type == null ? _changes : _changes.where((it) => it.type == type);
 
   /// Adds a change to the change set
   void add(Change change) {
