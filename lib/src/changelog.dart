@@ -15,11 +15,7 @@ class Changelog {
   final unreleased = Section();
 
   /// All releases in chronological order (oldest first)
-  Iterable<Release> history() {
-    final releases = _releases.values.toList();
-    releases.sort();
-    return releases;
-  }
+  Iterable<Release> history() => _releases.values.toList()..sort();
 
   /// Returns the release by version or throws [StateError]
   Release get(String version) =>
@@ -38,9 +34,8 @@ class Changelog {
 
   /// Returns the release which immediately precedes the [version]
   Release? preceding(Version version) {
-    final older = history().where((r) => r.version < version).toList();
-    if (older.isNotEmpty) return older.last;
-    return null;
+    final older = history().where((r) => r.version < version);
+    return older.isEmpty ? null : older.last;
   }
 
   String _normalize(String version) => version.trim().toLowerCase();

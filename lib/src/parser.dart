@@ -81,7 +81,7 @@ void _parseInto(Section section, Iterable<Node> nodes) {
     } else if (node.tag == 'ul') {
       node.children!
           .whereType<Element>()
-          .map((node) => Change(type, node.children!))
+          .map((it) => Change(type, it.children!))
           .forEach(section.add);
     }
   }
